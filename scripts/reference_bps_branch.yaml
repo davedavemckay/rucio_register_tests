@@ -1,0 +1,48 @@
+# Extra yaml needed because using ticket branches of ctrl_bps and ctrl_bps_htcondor.
+# Some needs to move into ticket branch.
+
+bpsUseRunTempSpace: true
+bpsUseShared: false
+fileDistributionEndpoint: "${LSST_RUN_TEMP_SPACE}/bps_dev/payload/{uniqProcName}/"
+softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
+bpsMakeCommand: false
+
+buildQuantumGraph:
+  requestMemory: 64000
+  customEnvSetup: >
+    pwd;
+    git clone https://github.com/lsst/ctrl_bps;
+    pushd ctrl_bps;
+    git checkout tickets/DM-53494;
+    setup -j -r .;
+    scons;
+    popd;
+    git clone https://github.com/lsst/ctrl_bps_htcondor;
+    pushd ctrl_bps_htcondor;
+    git checkout tickets/DM-53494;
+    setup -j -r .;
+    scons;
+    popd;
+    taskset -pc $$;
+
+
+preparePayloadWorkflow:
+  computeSite: bps_submit
+  #bpsPreCommandOpts: "--log-level=lsst.ctrl.bps.htcondor.prepare_utils=DEBUG --long-log"
+
+site:
+  bps_submit:
+    #environment:
+    #  HOME: "/sdf/group/rubin/user/mgower"
+    bpsUseShared: true
+    bpsUseRunTempSpace: false
+    #softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
+    softwarePath: "/sdf/group/rubin/sw/w_latest"
+    nodeset: "BPS_SUBMIT"
+    customEnvSetup: >
+      pushd /sdf/group/rubin/user/mgower/stages-53494/ctrl_bps;
+      setup -j -r .;
+      popd;
+      pushd /sdf/group/rubin/user/mgower/stages-53494/ctrl_bps_htcondor;
+      setup -j -r .;
+      popd;

@@ -2,4 +2,6 @@
 
 echo "Running rucio-register main in serial."
 
+
+
 exit 0

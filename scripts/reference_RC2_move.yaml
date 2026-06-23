@@ -1,0 +1,20 @@
+LSST_VERSION: w_2026_23
+
+includeConfigs:
+  - ${CTRL_BPS_PANDA_DIR}/config/bps_panda_DF.yaml
+  - ${CTRL_BPS_PANDA_DIR}/config/bps_remote.yaml
+  - ${CTRL_BPS_PANDA_DIR}/config/bps_panda_cmd.yaml
+
+submitCmd: True
+computeSite: RAL
+numberOfRetries: 2
+
+customJob:
+  queue: ""
+  requestMemory: 32000
+  executable: "move-all.bash"
+  arguments: ""
+
+payload:
+  payloadName: move_all
+  butlerConfig: hsc_pdr2_multisite
