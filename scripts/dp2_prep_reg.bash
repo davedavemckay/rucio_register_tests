@@ -1,23 +1,44 @@
 #!/bin/bash
-export BUTLER_REPO=dp2_prep
-export SITE_RSE=RAL_BUTLER_DISK
-export LSST_WEEKLY=w_2026_23
 
-source ral_setup.bash $LSST_WEEKLY
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 <SITE> <BUTLER_REPO> <LSST_WEEKLY> <TEST_NAME>"
+    exit 1
+fi
+
+export BUTLER_REPO=$2
+export LSST_WEEKLY=$3
+export SITE=$1
+export SITE_RSE=${SITE}_BUTLER_DISK
+export SCOPE=${BUTLER_REPO}
+
+if [ "$SITE" == "LANCS" ]; then
+    export SITE_RSE_ROOT=/cephfs/grid/lsst/repos/${BUTLER_REPO}/
+    export SITE_DTN_URL=davs://xgate.hec.lancs.ac.uk:1094/cephfs/grid/lsst/repos/${BUTLER_REPO}/
+elif [ "$SITE" == "RAL" ]; then
+    export SITE_RSE_ROOT=/lsst:datadisk/repos/${BUTLER_REPO}/
+    export SITE_DTN_URL=https://webdav.echo.stfc.ac.uk:1094/lsst:datadisk/repos/${BUTLER_REPO}/
+else
+    echo "Unknown site: $SITE"
+    exit 1
+fi
+
+source ${SITE}_setup.bash $LSST_WEEKLY
 
 rucio whoami
 
 #this makes a rucio_register config file for the hsc_pdr2_multisite repo at the remote site
 cat <<EOF >rucio_register.cfg
 rucio_rse: "${SITE_RSE}"
-scope: "${BUTLER_REPO}"
-rse_root: "/lsst:datadisk/repos/${BUTLER_REPO}/"
-dtn_url: "https://webdav.echo.stfc.ac.uk:1094/lsst:datadisk/repos/${BUTLER_REPO}/"
+scope: "${SCOPE}"
+rse_root: "${SITE_RSE_ROOT}"
+dtn_url: "${SITE_DTN_URL}"
 EOF
 
 export COLLECTION=u/dmckayuk/w_2026_23/DM-55251/20260618T080828Z
-export DATASET=Dataset/u/dmckayuk/w_2026_23/DM-55251/20260618T080828Z/outputs
+export DATASET=Dataset/u/dmckayuk/w_2026_23/DM-55251/20260618T080828Z/${test_name}
 export CONFIG_FILE=rucio_register.cfg
+test_name=$4
+
 echo "BEGIN REGISTRY: $(date)"
 for TYPE in \
     analyzeSingleVisitStarAssociation_config \
