@@ -9,15 +9,28 @@ site:
     bpsUseRunTempSpace: true
     softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
     
+    # customEnvSetup: >
+    #   pwd;
+      
+    #   # test scripts
+    #   git clone https://github.com/davedavemckay/rucio_register_tests;
+      
+    #   # Add any specific setup commands for the test repo here if needed
+      
+    #   taskset -pc $$;
+
+  bps_submit:
+    bpsUseShared: true
+    bpsUseRunTempSpace: false
+    softwarePath: "/sdf/group/rubin/sw/w_latest"
+    nodeset: "BPS_SUBMIT"
     customEnvSetup: >
-      pwd;
-      
-      # test scripts
-      git clone https://github.com/davedavemckay/rucio_register_tests;
-      
-      # Add any specific setup commands for the test repo here if needed
-      
-      taskset -pc $$;
+      pushd /sdf/group/rubin/user/mgower/stages-53494/ctrl_bps;
+      setup -j -r .;
+      popd;
+      pushd /sdf/group/rubin/user/mgower/stages-53494/ctrl_bps_htcondor;
+      setup -j -r .;
+      popd;
 
 lsstVersion: "w_2026_23"
 project: dev
@@ -43,3 +56,6 @@ customJob:
 finalJob:
   requestCpus: 10
   requestMemory: 16000
+
+preparePayloadWorkflow:
+  computeSite: bps_submit
