@@ -11,7 +11,7 @@ elif len(sys.argv) == 3:
     collections = sys.argv[1]
     dataset_type = sys.argv[2]
 else:
-    sys.exit("Usage: python find_dataset_counts.py <collection> [dataset_type]")
+    sys.exit("Usage: python find_dataset_counts.py <collection> [dataset_type]\nExample collections:\nu/dmckayuk/w_2026_23/DM-55251/20260618T080828Z\nu/dmckayuk/w_2026_23/DM-55252/20260619T131002Z")
 
 # Create the Butler
 # Initialize the Butler
