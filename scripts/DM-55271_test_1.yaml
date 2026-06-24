@@ -1,0 +1,45 @@
+# Run with `bps submitcmd DM-55271_test_1.yaml`
+wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
+computeSite: LANCS
+
+site:
+  lancs:
+    nodeset: "LANCS"
+    bpsUseShared: false
+    bpsUseRunTempSpace: true
+    softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
+    
+    customEnvSetup: >
+      pwd;
+      
+      # test scripts
+      git clone https://github.com/davedavemckay/rucio_register_tests;
+      
+      # Add any specific setup commands for the test repo here if needed
+      
+      taskset -pc $$;
+
+lsstVersion: "w_2026_23"
+project: dev
+campaign: rucio_parallel_tests
+bpsMakeCommand: false
+fileDistributionEndpoint: "${LSST_RUN_TEMP_SPACE}/bps_dev/payload/{uniqProcName}/"
+submitCmd: True
+numberOfRetries: 0
+
+payload:
+  payloadName: "DM-55271-test_1/{computeSite}"
+  # Keep this collection in sync with the default COLLECTION in DM-55271_test_1.bash.
+  inCollection: "u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z"
+  # dataQuery: "exposure = 34342 AND detector = 2"
+  butlerConfig: "dp2_prep"
+
+customJob:
+  queue: ""
+  requestMemory: 16000
+  executable: "bash"
+  arguments: "rucio_register_tests/scripts/DM-55271_test_1.bash"
+
+finalJob:
+  requestCpus: 10
+  requestMemory: 16000
