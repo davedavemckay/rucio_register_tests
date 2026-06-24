@@ -30,4 +30,4 @@ else:
 
 # Query the datasets and cast the generator to a list
 for dataset_type in dataset_types:
-    print(f"{sys.argv[1]},{len(list(butler.query_datasets(dataset_type, collections=collections, limit=None)))}")
+    print(f"{dataset_type},{len(list(butler.query_datasets(dataset_type, collections=collections, limit=None)))}")
