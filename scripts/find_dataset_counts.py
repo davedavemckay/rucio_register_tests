@@ -15,10 +15,16 @@ else:
 
 # Create the Butler
 # Initialize the Butler
-butler = Butler("dp2_prep", collections=collections)
+butler = Butler("dp2_prep")
+
 if discover_dataset_types:
     # Discover the dataset types
-    dataset_types = butler.query_dataset_types()
+    info_list = butler.collections.query_info(collections, include_summary=True)
+
+    if info_list:
+        dataset_types = info_list[0].dataset_types
+    else:
+        sys.exit(f"No dataset types found for collection: {collections}")
 else:
     dataset_types = [dataset_type]
 
