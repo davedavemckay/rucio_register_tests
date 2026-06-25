@@ -8,16 +8,6 @@ site:
     bpsUseShared: false
     bpsUseRunTempSpace: true
     softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
-    
-    # customEnvSetup: >
-    #   pwd;
-      
-    #   # test scripts
-    #   git clone https://github.com/davedavemckay/rucio_register_tests;
-      
-    #   # Add any specific setup commands for the test repo here if needed
-      
-    #   taskset -pc $$;
 
   bps_submit:
     bpsUseShared: true
@@ -50,8 +40,8 @@ payload:
 customJob:
   queue: ""
   requestMemory: 16000
-  executable: "bash"
-  arguments: "rucio_register_tests/scripts/DM-55271_test_1.bash"
+  executable: "DM-55271_test_1.bash"
+  arguments: ""
 
 finalJob:
   requestCpus: 10

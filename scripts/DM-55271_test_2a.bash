@@ -4,7 +4,7 @@ export SCOPE="dp2_prep"
 export COLLECTION="u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z"
 export SITE="LANCS"
 export PIPELINE_RUN_TICKET="DM-55252"
-export TEST_NAME="DM-55271-test_1"
+export TEST_NAME="DM-55271-test_2a"
 
 rucio whoami
 
@@ -23,14 +23,14 @@ echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RU
 butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n +3 | head -n 10 | while IFS= read -r TYPE; do
     echo "type $TYPE"
 
-    rucio-register data-products \
-    --repo "$BUTLER_REPO" \
-    --dataset-type "$TYPE" \
-    --collections "$COLLECTION" \
-    --rucio-dataset "$DATASET" \
-    --rucio-register-config "$CONFIG_FILE" \
-    --log-level DEBUG \
-    --chunk-size 30
+    # rucio-register data-products \
+    # --repo "$BUTLER_REPO" \
+    # --dataset-type "$TYPE" \
+    # --collections "$COLLECTION" \
+    # --rucio-dataset "$DATASET" \
+    # --rucio-register-config "$CONFIG_FILE" \
+    # --log-level DEBUG \
+    # --chunk-size 30
 done
 
 echo "Time: $(date +%s.%N) - Finished rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
