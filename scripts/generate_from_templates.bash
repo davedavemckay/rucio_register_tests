@@ -31,23 +31,23 @@ fi
 
 # bash file edits
 
-sed "s/TEMPLATE_SITE/$SITE/g" DM-55271_test_1_1type_TEMPLATE.bash > DM-55271_test_1_1type.bash.tmp && mv DM-55271_test_1_1type.bash.tmp DM-55271_test_1_1type.bash
-sed "s/TEMPLATE_COLLECTION/$COLLECTION/g" DM-55271_test_1_1type.bash > DM-55271_test_1_1type.bash.tmp && mv DM-55271_test_1_1type.bash.tmp DM-55271_test_1_1type.bash
-sed "s/TEMPLATE_TICKET/$PIPELINE_RUN_TICKET/g" DM-55271_test_1_1type.bash > DM-55271_test_1_1type.bash.tmp && mv DM-55271_test_1_1type.bash.tmp DM-55271_test_1_1type.bash
-sed "s/TEMPLATE_RSE_ROOT/$RSE_ROOT/g" DM-55271_test_1_1type.bash > DM-55271_test_1_1type.bash.tmp && mv DM-55271_test_1_1type.bash.tmp DM-55271_test_1_1type.bash
-sed "s/TEMPLATE_DTN_URL/$DTN_URL/g" DM-55271_test_1_1type.bash > DM-55271_test_1_1type.bash.tmp && mv DM-55271_test_1_1type.bash.tmp DM-55271_test_1_1type.bash
+sed "s/TEMPLATE_SITE/$SITE/g" ${TEST}_TEMPLATE.bash > ${TEST}.bash.tmp && mv ${TEST}.bash.tmp ${TEST}.bash
+sed "s/TEMPLATE_COLLECTION/$COLLECTION/g" ${TEST}.bash > ${TEST}.bash.tmp && mv ${TEST}.bash.tmp ${TEST}.bash
+sed "s/TEMPLATE_TICKET/$PIPELINE_RUN_TICKET/g" ${TEST}.bash > ${TEST}.bash.tmp && mv ${TEST}.bash.tmp ${TEST}.bash
+sed "s/TEMPLATE_RSE_ROOT/$RSE_ROOT/g" ${TEST}.bash > ${TEST}.bash.tmp && mv ${TEST}.bash.tmp ${TEST}.bash
+sed "s/TEMPLATE_DTN_URL/$DTN_URL/g" ${TEST}.bash > ${TEST}.bash.tmp && mv ${TEST}.bash.tmp ${TEST}.bash
 
 # yaml file edits
 
-sed "s/TEMPLATE_COMPUTE_SITE/$SITE/g" DM-55271_test_1_TEMPLATE.yaml > DM-55271_test_1_TEMPLATE.yaml.tmp && mv DM-55271_test_1_TEMPLATE.yaml.tmp DM-55271_test_1_TEMPLATE.yaml
-sed "s/TEMPLATE_COMPUTE_SITE_LOWERCASE/${SITE,,}/g" DM-55271_test_1_TEMPLATE.yaml > DM-55271_test_1_TEMPLATE.yaml.tmp && mv DM-55271_test_1_TEMPLATE.yaml.tmp DM-55271_test_1_TEMPLATE.yaml
-sed "s/TEMPLATE_NODESET/${SITE}/g" DM-55271_test_1_TEMPLATE.yaml > DM-55271_test_1_TEMPLATE.yaml.tmp && mv DM-55271_test_1_TEMPLATE.yaml.tmp DM-55271_test_1_TEMPLATE.yaml
-sed "s/TEMPLATE_COLLECTION/$COLLECTION/g" DM-55271_test_1_TEMPLATE.yaml > DM-55271_test_1_TEMPLATE.yaml.tmp && mv DM-55271_test_1_TEMPLATE.yaml.tmp DM-55271_test_1_TEMPLATE.yaml
-sed "s/TEMPLATE_TICKET/$PIPELINE_RUN_TICKET/g" DM-55271_test_1_TEMPLATE.yaml > DM-55271_test_1_TEMPLATE.yaml.tmp && mv DM-55271_test_1_TEMPLATE.yaml.tmp DM-55271_test_1_TEMPLATE.yaml
-sed "s/TEMPLATE_TEST_NAME/$TEST_NAME/g" DM-55271_test_1_TEMPLATE.yaml > DM-55271_test_1_TEMPLATE.yaml.tmp && mv DM-55271_test_1_TEMPLATE.yaml.tmp DM-55271_test_1_TEMPLATE.yaml
-sed "s/TEMPLATE_BASH_FILE/DM-55271_test_1_1type.bash/g" DM-55271_test_1_TEMPLATE.yaml > DM-55271_test_1_TEMPLATE.yaml.tmp && mv DM-55271_test_1_TEMPLATE.yaml.tmp DM-55271_test_1_TEMPLATE.yaml
+sed "s/TEMPLATE_COMPUTE_SITE/$SITE/g" ${TEST}_TEMPLATE.yaml > ${TEST}.yaml.tmp && mv ${TEST}.yaml.tmp ${TEST}.yaml
+sed "s/TEMPLATE_COMPUTE_SITE_LOWERCASE/${SITE,,}/g" ${TEST}_TEMPLATE.yaml > ${TEST}.yaml.tmp && mv ${TEST}.yaml.tmp ${TEST}.yaml
+sed "s/TEMPLATE_NODESET/${SITE}/g" ${TEST}_TEMPLATE.yaml > ${TEST}.yaml.tmp && mv ${TEST}.yaml.tmp ${TEST}.yaml
+sed "s/TEMPLATE_COLLECTION/$COLLECTION/g" ${TEST}_TEMPLATE.yaml > ${TEST}.yaml.tmp && mv ${TEST}.yaml.tmp ${TEST}.yaml
+sed "s/TEMPLATE_TICKET/$PIPELINE_RUN_TICKET/g" ${TEST}_TEMPLATE.yaml > ${TEST}.yaml.tmp && mv ${TEST}.yaml.tmp ${TEST}.yaml
+sed "s/TEMPLATE_TEST_NAME/$TEST_NAME/g" ${TEST}_TEMPLATE.yaml > ${TEST}.yaml.tmp && mv ${TEST}.yaml.tmp ${TEST}.yaml
+sed "s/TEMPLATE_BASH_FILE/${TEST}.bash/g" ${TEST}_TEMPLATE.yaml > ${TEST}.yaml.tmp && mv ${TEST}.yaml.tmp ${TEST}.yaml
 
-echo "Generated DM-55271_test_1_1type.bash and DM-55271_test_1_TEMPLATE.yaml with the following parameters:"
+echo "Generated ${TEST}.bash and ${TEST}.yaml with the following parameters:"
 echo "SITE: $SITE"
 echo "COLLECTION: $COLLECTION"
 echo "PIPELINE_RUN_TICKET: $PIPELINE_RUN_TICKET"
