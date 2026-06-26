@@ -1,6 +1,6 @@
 # Run with `bps submitcmd DM-55271_test_1.yaml`
 wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
-computeSite: TEMPLATE_COMPUTE_SITE
+computeSite: "TEMPLATE_COMPUTE_SITE"
 
 site:
   TEMPLATE_COMPUTE_SITE_LOWERCASE:
@@ -41,7 +41,7 @@ customJob:
   queue: ""
   requestCpus: 10
   requestMemory: 16000
-  executable: TEMPLATE_BASH_FILE
+  executable: "TEMPLATE_BASH_FILE"
   arguments: ""
 
 finalJob:

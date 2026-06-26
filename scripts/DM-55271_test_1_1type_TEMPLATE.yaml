@@ -41,7 +41,7 @@ customJob:
   queue: ""
   requestCpus: 10
   requestMemory: 16000
-  executable: "DM-55271_test_1.bash"
+  executable: "TEMPLATE_BASH_FILE"
   arguments: ""
 
 finalJob:
