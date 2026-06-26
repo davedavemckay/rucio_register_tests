@@ -20,7 +20,7 @@ fi
 
 if [ $SITE = "LANCS" ]; then
     RSE_ROOT="/cephfs/grid/lsst/repos/${BUTLER_REPO}/"
-    DTN_URL="davs://xgate.hec.lancs.ac.uk:1094${RSE_ROOT}/"
+    DTN_URL="davs://xgate.hec.lancs.ac.uk:1094${RSE_ROOT}"
 elif [ $SITE = "RAL" ]; then
     RSE_ROOT="/lsst:datadisk/repos/${BUTLER_REPO}/"
     DTN_URL="https://webdav.echo.stfc.ac.uk:1094${RSE_ROOT}"
@@ -31,21 +31,21 @@ fi
 
 # bash file edits
 
-sed "s/TEMPLATE_SITE/$SITE/g" ${TEST_NAME}_TEMPLATE.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s/TEMPLATE_COLLECTION/$COLLECTION/g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s/TEMPLATE_TICKET/$PIPELINE_RUN_TICKET/g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s/TEMPLATE_RSE_ROOT/$RSE_ROOT/g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s/TEMPLATE_DTN_URL/$DTN_URL/g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
+sed "s|TEMPLATE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
+sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
+sed "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
+sed "s|TEMPLATE_RSE_ROOT|$RSE_ROOT|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
+sed "s|TEMPLATE_DTN_URL|$DTN_URL|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
 
 # yaml file edits
 
-sed "s/TEMPLATE_COMPUTE_SITE/$SITE/g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s/TEMPLATE_COMPUTE_SITE_LOWERCASE/${SITE,,}/g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s/TEMPLATE_NODESET/${SITE}/g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s/TEMPLATE_COLLECTION/$COLLECTION/g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s/TEMPLATE_TICKET/$PIPELINE_RUN_TICKET/g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s/TEMPLATE_TEST_NAME/$TEST_NAME/g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s/TEMPLATE_BASH_FILE/${TEST_NAME}.bash/g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_COMPUTE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_COMPUTE_SITE_LOWERCASE|${SITE,,}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_NODESET|${SITE}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_TEST_NAME|$TEST_NAME|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_BASH_FILE|${TEST_NAME}.bash|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
 
 chmod +x ${TEST_NAME}.bash
 
