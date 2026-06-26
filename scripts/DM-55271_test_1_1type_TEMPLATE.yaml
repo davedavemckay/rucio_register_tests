@@ -42,7 +42,7 @@ customJob:
   requestCpus: 10
   requestMemory: 16000
   executable: "TEMPLATE_BASH_FILE"
-  arguments: ""
+  arguments: "0"
 
 finalJob:
   requestCpus: 10
