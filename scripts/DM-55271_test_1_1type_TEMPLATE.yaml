@@ -39,6 +39,7 @@ payload:
 
 customJob:
   queue: ""
+  requestCpus: 10
   requestMemory: 16000
   executable: "DM-55271_test_1.bash"
   arguments: ""
