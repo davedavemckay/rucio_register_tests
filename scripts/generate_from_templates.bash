@@ -32,25 +32,25 @@ fi
 # bash file edits
 set +x
 
-sed "s|TEMPLATE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s|TEMPLATE_RSE_ROOT|$RSE_ROOT|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
-sed "s|TEMPLATE_DTN_URL|$DTN_URL|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
+sed "s|TEMPLATE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}_${SITE}.bash
+sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}_${SITE}.bash
+sed "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}_${SITE}.bash
+sed "s|TEMPLATE_RSE_ROOT|$RSE_ROOT|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}_${SITE}.bash
+sed "s|TEMPLATE_DTN_URL|$DTN_URL|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}_${SITE}.bash
 
 # yaml file edits
 
-sed "s|TEMPLATE_COMPUTE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-# sed "s|TEMPLATE_COMPUTE_SITE_LOWERCASE|${SITE,,}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s|TEMPLATE_NODESET|${SITE}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s|TEMPLATE_TEST_NAME|$TEST_NAME|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s|TEMPLATE_BASH_FILE|${TEST_NAME}.bash|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+sed "s|TEMPLATE_COMPUTE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
+# sed "s|TEMPLATE_COMPUTE_SITE_LOWERCASE|${SITE,,}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
+sed "s|TEMPLATE_NODESET|${SITE}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
+sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
+sed "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
+sed "s|TEMPLATE_TEST_NAME|$TEST_NAME|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
+sed "s|TEMPLATE_BASH_FILE|${TEST_NAME}.bash|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
 
-chmod +x ${TEST_NAME}.bash
+chmod a+x ${TEST_NAME}_${SITE}.bash
 
-echo "Generated ${TEST_NAME}.bash and ${TEST_NAME}.yaml with the following parameters:"
+echo "Generated ${TEST_NAME}_${SITE}.bash and ${TEST_NAME}_${SITE}.yaml with the following parameters:"
 echo "SITE: $SITE"
 echo "COLLECTION: $COLLECTION"
 echo "PIPELINE_RUN_TICKET: $PIPELINE_RUN_TICKET"
