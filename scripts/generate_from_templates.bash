@@ -30,6 +30,7 @@ else
 fi
 
 # bash file edits
+set +x
 
 sed "s|TEMPLATE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
 sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}.bash
@@ -57,3 +58,4 @@ echo "TEST: $TEST_NAME"
 echo "BUTLER_REPO: $BUTLER_REPO"
 echo "RSE_ROOT: $RSE_ROOT"
 echo "DTN_URL: $DTN_URL"
+set -x
