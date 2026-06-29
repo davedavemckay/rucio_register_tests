@@ -40,7 +40,7 @@ sed "s|TEMPLATE_DTN_URL|$DTN_URL|g" ${TEST_NAME}.bash > ${TEST_NAME}.bash.tmp &&
 # yaml file edits
 
 sed "s|TEMPLATE_COMPUTE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
-sed "s|TEMPLATE_COMPUTE_SITE_LOWERCASE|${SITE,,}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
+# sed "s|TEMPLATE_COMPUTE_SITE_LOWERCASE|${SITE,,}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
 sed "s|TEMPLATE_NODESET|${SITE}|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
 sed "s|TEMPLATE_COLLECTION|$COLLECTION|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml
 sed "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" ${TEST_NAME}_TEMPLATE.yaml > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}.yaml

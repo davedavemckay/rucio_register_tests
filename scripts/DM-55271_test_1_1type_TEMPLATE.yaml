@@ -3,7 +3,7 @@ wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
 computeSite: "TEMPLATE_COMPUTE_SITE"
 
 site:
-  TEMPLATE_COMPUTE_SITE_LOWERCASE:
+  TEMPLATE_COMPUTE_SITE:
     nodeset: "TEMPLATE_NODESET"
     bpsUseShared: false
     bpsUseRunTempSpace: true
