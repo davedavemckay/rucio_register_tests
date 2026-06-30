@@ -3,7 +3,7 @@ SITE=$1
 COLLECTION=$2
 PIPELINE_RUN_TICKET=$3
 TEST=$4
-BUTLER_REPO="d2p_prep"
+BUTLER_REPO="dp2_prep"
 
 if [ -z "$SITE" ] || [ -z "$COLLECTION" ] || [ -z "$PIPELINE_RUN_TICKET" ] || [ -z "$TEST" ]; then
     echo "Usage: $0 <SITE> <COLLECTION> <PIPELINE_RUN_TICKET> <TEST_NAME>"

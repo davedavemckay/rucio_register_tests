@@ -1,6 +1,6 @@
 #!/bin/bash
-export BUTLER_REPO="d2p_prep"
-export SCOPE="d2p_prep"
+export BUTLER_REPO="dp2_prep"
+export SCOPE="dp2_prep"
 export COLLECTION="TEMPLATE_COLLECTION"
 export SITE="TEMPLATE_SITE"
 export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
