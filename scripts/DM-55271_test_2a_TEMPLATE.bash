@@ -32,10 +32,9 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
     # --log-level DEBUG \
     # --chunk-size 30
 done
-
+result1=$?
 echo "Time: $(date +%s.%N) - Finished rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
 
-result1=$?
 echo $result1
 if [ "$result1" != "0" ]; then
     echo "rucio-register $TEST_NAME Failed"
