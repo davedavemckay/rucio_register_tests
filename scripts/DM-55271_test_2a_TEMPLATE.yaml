@@ -27,10 +27,10 @@ site:
     softwarePath: "/sdf/group/rubin/sw/w_latest"
     nodeset: "BPS_SUBMIT"
     customEnvSetup: >
-      pushd /sdf/group/rubin/user/mgower/stages-53494/ctrl_bps;
+      pushd /sdf/data/rubin/user/dmckayuk/htcondor_runs/remote_submission/DM-53494/ctrl_bps;
       setup -j -r .;
       popd;
-      pushd /sdf/group/rubin/user/mgower/stages-53494/ctrl_bps_htcondor;
+      pushd /sdf/data/rubin/user/dmckayuk/htcondor_runs/remote_submission/DM-53494/ctrl_bps_htcondor;
       setup -j -r .;
       popd;
 

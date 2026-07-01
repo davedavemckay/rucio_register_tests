@@ -47,7 +47,7 @@ sed -e "s|TEMPLATE_COMPUTE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.yaml \
     -e "s|TEMPLATE_COLLECTION|$COLLECTION|g" \
     -e "s|TEMPLATE_TICKET|$PIPELINE_RUN_TICKET|g" \
     -e "s|TEMPLATE_TEST_NAME|$TEST_NAME|g" \
-    -e "s|TEMPLATE_BASH_FILE|${TEST_NAME}.bash|g" \
+    -e "s|TEMPLATE_BASH_FILE|${TEST_NAME}_${SITE}.bash|g" \
     > ${TEST_NAME}.yaml.tmp && mv ${TEST_NAME}.yaml.tmp ${TEST_NAME}_${SITE}.yaml
 
 chmod a+x ${TEST_NAME}_${SITE}.bash
