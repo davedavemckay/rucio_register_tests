@@ -11,8 +11,8 @@ rucio whoami
 cat <<EOF >rucio_register.cfg
 rucio_rse: "${SITE}_BUTLER_DISK"
 scope: "${SCOPE}"
-rse_root: "/lsst:datadisk/repos/${BUTLER_REPO}/"
-dtn_url: "https://webdav.echo.stfc.ac.uk:1094/lsst:datadisk/repos/${BUTLER_REPO}/"
+rse_root: TEMPLATE_RSE_ROOT
+dtn_url: TEMPLATE_DTN_URL
 EOF
 
 export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}"
