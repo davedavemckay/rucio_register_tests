@@ -37,8 +37,18 @@ echo "Time: $(date +%s.%N) - Finished rucio-register for $TEST_NAME $PIPELINE_RU
 
 echo $result1
 if [ "$result1" != "0" ]; then
-    echo "rucio-register $TEST_NAME Failed"
+    echo "rucio-register $TEST_NAME failed"
 else
-    echo "rucio-register $TEST_NAME Succeeded"
+    echo "rucio-register $TEST_NAME succeeded"
 fi
+
+rucio replica list dataset  $SCOPE:$DATASET
+
+echo $result2
+if [ "$result2" != "0" ]; then
+    echo "rucio list dataset failed"
+else
+    echo "rucio list dataset succeeded"
+fi
+
 exit 0
