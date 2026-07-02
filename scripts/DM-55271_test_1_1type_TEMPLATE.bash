@@ -41,4 +41,14 @@ if [ "$result1" != "0" ]; then
 else
     echo "rucio-register $TEST_NAME Succeeded"
 fi
+
+rucio replica list dataset  $SCOPE:$DATASET
+
+echo $result2
+if [ "$result2" != "0" ]; then
+    echo "rucio list dataset failed"
+else
+    echo "rucio list dataset succeeded"
+fi
+
 exit 0
