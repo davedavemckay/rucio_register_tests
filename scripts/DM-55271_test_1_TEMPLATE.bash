@@ -1,9 +1,9 @@
 #!/bin/bash
 export BUTLER_REPO="dp2_prep"
 export SCOPE="dp2_prep"
-export COLLECTION="u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z"
-export SITE="LANCS"
-export PIPELINE_RUN_TICKET="DM-55252"
+export COLLECTION="TEMPLATE_COLLECTION"
+export SITE="TEMPLATE_COMPUTE_SITE"
+export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
 export TEST_NAME="DM-55271-test_1"
 
 rucio whoami
