@@ -20,8 +20,8 @@ export CONFIG_FILE="rucio_register.cfg"
 echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
 
 # use first 10 dataset types from the butler query-dataset-types command for the given collection
-butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n +3 | head -n 10 | while IFS= read -r TYPE; do
-    echo "type $TYPE"
+butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n +3 | awk '{print $1}' | head -n 10 | while IFS= read -r TYPE; do
+    echo "type <${TYPE}>" # in braces to highlight any leading/trailing whitespace
 
     rucio-register data-products \
     --repo "$BUTLER_REPO" \
@@ -31,24 +31,24 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
     --rucio-register-config "$CONFIG_FILE" \
     --log-level DEBUG \
     --chunk-size 30
+
+    result1=$?
+    echo "Time: $(date +%s.%N) - Finished rucio-register for dataset_type $TYPE for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
+
+    echo $result1
+    if [ "$result1" != "0" ]; then
+        echo "rucio-register $TYPE $TEST_NAME failed"
+    else
+        echo "rucio-register $TYPE $TEST_NAME succeeded"
+    fi
 done
-result1=$?
-echo "Time: $(date +%s.%N) - Finished rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
-
-echo $result1
-if [ "$result1" != "0" ]; then
-    echo "rucio-register $TEST_NAME failed"
-else
-    echo "rucio-register $TEST_NAME succeeded"
-fi
-
-rucio replica list dataset  $SCOPE:$DATASET
+rucio list files  $SCOPE:$DATASET
 
 echo $result2
 if [ "$result2" != "0" ]; then
-    echo "rucio list dataset failed"
+    echo "rucio list files failed"
 else
-    echo "rucio list dataset succeeded"
+    echo "rucio list files succeeded"
 fi
 
 exit 0
