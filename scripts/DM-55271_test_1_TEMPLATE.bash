@@ -5,6 +5,7 @@ export COLLECTION="TEMPLATE_COLLECTION"
 export SITE="TEMPLATE_SITE"
 export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
 export TEST_NAME="DM-55271-test_1"
+export TIMESTAMP=$((`date +%s` % 10000))
 
 rucio whoami
 
@@ -15,7 +16,7 @@ rse_root: TEMPLATE_RSE_ROOT
 dtn_url: TEMPLATE_DTN_URL
 EOF
 
-export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}"
+export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}${TIMESTAMP}"
 export CONFIG_FILE="rucio_register.cfg"
 echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
 
