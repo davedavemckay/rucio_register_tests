@@ -42,7 +42,7 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
         echo "rucio-register $TYPE $TEST_NAME succeeded"
     fi
 done
-result2=$(rucio list-files  $SCOPE:$DATASET | wc -l)
+result2=$(rucio list-files  $SCOPE:$DATASET | tail -n 2)
 
 echo $result2
 if [ "$result2" != "0" ]; then
