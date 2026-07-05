@@ -16,7 +16,7 @@ rse_root: TEMPLATE_RSE_ROOT
 dtn_url: TEMPLATE_DTN_URL
 EOF
 
-export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}${TIMESTAMP}"
+export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}/${TIMESTAMP}"
 export CONFIG_FILE="rucio_register.cfg"
 echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
 
@@ -43,7 +43,9 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
         echo "rucio-register $TYPE $TEST_NAME succeeded"
     fi
 done
+
 rucio did show ${SCOPE}:${DATASET}
+
 result2=$?
 echo $result2
 if [ "$result2" != "0" ]; then
