@@ -44,7 +44,7 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
     fi
 done
 
-rucio list-files --short ${SCOPE}:${DATASET} 2>/dev/null #| wc -l
+python -c "from rucio.client.didclient import DIDClient; print('File count:', len(list(DIDClient().list_files('${SCOPE}', '${DATASET}'))))"
 
 result2=$?
 echo $result2
