@@ -16,5 +16,5 @@ print(f"Total time taken: {time_delta:.6f} seconds")
 
 print(f"Files registered: {file_count}")
 
-registry_rate = file_count / time_delta if time_delta > 0 else 0
+registry_rate = float(file_count) / time_delta if time_delta > 0 else 0
 print(f"Registration rate: {registry_rate:.2f} Hz (files/second)")
