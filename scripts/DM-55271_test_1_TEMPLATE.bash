@@ -44,7 +44,7 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
     fi
 done
 
-rucio did show ${SCOPE}:${DATASET}
+rucio content list --files ${SCOPE}:${DATASET} | grep -v "+-" | grep -v "SCOPE:NAME" | wc -l
 
 result2=$?
 echo $result2
