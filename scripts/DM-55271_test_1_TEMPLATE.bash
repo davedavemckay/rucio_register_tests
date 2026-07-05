@@ -44,7 +44,7 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
     fi
 done
 
-rucio list-files --short ${SCOPE}:${DATASET} 2>/dev/null | wc -l
+rucio list-files --short ${SCOPE}:${DATASET} 2>/dev/null #| wc -l
 
 result2=$?
 echo $result2
