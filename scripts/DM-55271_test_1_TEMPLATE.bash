@@ -10,8 +10,8 @@ export TIMESTAMP=$((`date +%s` % 10000))
 rucio whoami
 
 cat <<EOF >rucio_register.cfg
-rucio_rse: "${SITE}_BUTLER_DISK"
-scope: "${SCOPE}"
+rucio_rse: ${SITE}_BUTLER_DISK
+scope: ${SCOPE}
 rse_root: TEMPLATE_RSE_ROOT
 dtn_url: TEMPLATE_DTN_URL
 EOF
