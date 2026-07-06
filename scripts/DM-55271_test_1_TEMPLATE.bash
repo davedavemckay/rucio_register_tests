@@ -21,7 +21,7 @@ export CONFIG_FILE="rucio_register.cfg"
 echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
 
 # use first 6 dataset types from the butler query-dataset-types command for the given collection
-butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n +3 | awk '{print $1}' | head -n 6 | while IFS= read -r TYPE; do
+butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n +3 | awk '{print $1}' | head -n 20 | while IFS= read -r TYPE; do
     echo "type <${TYPE}>" # in braces to highlight any leading/trailing whitespace
 
     rucio-register data-products \
