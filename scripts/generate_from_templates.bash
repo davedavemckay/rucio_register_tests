@@ -23,7 +23,7 @@ if [ $SITE = "LANCS" ]; then
     DTN_URL="davs://xgate.hec.lancs.ac.uk:1094${RSE_ROOT}"
 elif [ $SITE = "RAL" ]; then
     RSE_ROOT="/lsst:datadisk/butler/repos/${BUTLER_REPO}/"
-    DTN_URL="https://webdav.echo.stfc.ac.uk:1094${RSE_ROOT}"
+    DTN_URL="davs://webdav.echo.stfc.ac.uk:1094${RSE_ROOT}"
 else
     echo "Unknown SITE: $SITE"
     exit 1
