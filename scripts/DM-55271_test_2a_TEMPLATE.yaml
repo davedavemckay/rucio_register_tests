@@ -51,6 +51,7 @@ payload:
 
 customJob:
   queue: ""
+  requestCpus: 10
   requestMemory: 16000
   executable: "TEMPLATE_BASH_FILE"
   arguments: "0"
