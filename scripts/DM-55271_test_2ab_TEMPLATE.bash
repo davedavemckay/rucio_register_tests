@@ -55,7 +55,9 @@ else
     echo "rucio-register $TEST_NAME Succeeded"
 fi
 
-head -n 100 $(ls -t uuids | tail -n 1)
+first_uuid_file=$(ls -t uuids/* | head -n 1)
+
+head -n 10 "$first_uuid_file"
 
 # find ./uuids -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register data-products \
 # --repo "$BUTLER_REPO" \
