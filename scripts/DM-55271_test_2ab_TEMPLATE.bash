@@ -29,7 +29,7 @@ rucio-register auto-register \
 --dry-run \
 --rucio-register-config "$CONFIG_FILE" \
 --log-level DEBUG \
---max-dataset-types 20 \
+--max-dataset-types 2 \
 --out-dir "uuids" \
 
     #
@@ -55,9 +55,9 @@ else
     echo "rucio-register $TEST_NAME Succeeded"
 fi
 
-first_uuid_file=$(ls -t uuids/* | head -n 1)
+ls -t uuids/
 
-head -n 10 "$first_uuid_file"
+# head -n 10 "$first_uuid_file"
 
 # find ./uuids -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register data-products \
 # --repo "$BUTLER_REPO" \
