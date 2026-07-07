@@ -53,7 +53,7 @@ customJob:
   queue: ""
   requestMemory: 16000
   executable: "TEMPLATE_BASH_FILE"
-  arguments: ""
+  arguments: "None"
 
 finalJob:
   requestCpus: 10
