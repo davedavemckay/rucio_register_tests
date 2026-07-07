@@ -43,7 +43,7 @@ submitCmd: True
 numberOfRetries: 0
 
 payload:
-  payloadName: "DM-55271-test_1/{computeSite}"
+  payloadName: "DM-55271-test_2a/{computeSite}"
   # Keep this collection in sync with the default COLLECTION in DM-55271_test_1.bash.
   inCollection: "u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z"
   # dataQuery: "exposure = 34342 AND detector = 2"
@@ -52,7 +52,7 @@ payload:
 customJob:
   queue: ""
   requestMemory: 16000
-  executable: "DM-55271_test_1.bash"
+  executable: "DM-55271_test_2a.bash"
   arguments: ""
 
 finalJob:
