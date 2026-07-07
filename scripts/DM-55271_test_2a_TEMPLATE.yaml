@@ -1,10 +1,10 @@
 # Run with `bps submitcmd DM-55271_test_1.yaml`
 wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
-computeSite: LANCS
+computeSite: TEMPLATE_COMPUTE_SITE
 
 site:
-  lancs:
-    nodeset: "LANCS"
+  TEMPLATE_COMPUTE_SITE:
+    nodeset: "TEMPLATE_NODESET"
     bpsUseShared: false
     bpsUseRunTempSpace: true
     softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
@@ -43,16 +43,16 @@ submitCmd: True
 numberOfRetries: 0
 
 payload:
-  payloadName: "DM-55271-test_2a/{computeSite}"
+  payloadName: "TEMPLATE_TEST_NAME/{computeSite}"
   # Keep this collection in sync with the default COLLECTION in DM-55271_test_1.bash.
-  inCollection: "u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z"
+  inCollection: "TEMPLATE_COLLECTION"
   # dataQuery: "exposure = 34342 AND detector = 2"
   butlerConfig: "dp2_prep"
 
 customJob:
   queue: ""
   requestMemory: 16000
-  executable: "DM-55271_test_2a.bash"
+  executable: "TEMPLATE_BASH_FILE"
   arguments: ""
 
 finalJob:
