@@ -30,7 +30,7 @@ rucio-register auto-register \
 --dry-run \
 --rucio-register-config "$CONFIG_FILE" \
 --log-level DEBUG \
---max-dataset-types 2 \
+--max-dataset-types 20 \
 --out-dir "uuids" \
 
     #
