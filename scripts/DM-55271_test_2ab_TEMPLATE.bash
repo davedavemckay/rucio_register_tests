@@ -56,16 +56,20 @@ else
     echo "rucio-register $TEST_NAME Succeeded"
 fi
 
+file_count=$(for f in `find uuids/ -type f`; do wc -l $f | awk '{print $1}'; done | awk '{s+=$1} END {print s}')
+echo "File count: $file_count"
+
 setup lsst_distrib -t w_2026_23
 eups list -s rucio_register
-
+echo "Starting rucio-register dataset-list for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
+echo "Time: $(date +%s.%N)"
 find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register dataset-list \
     --repo "$BUTLER_REPO" \
     --rucio-dataset $DATASET/{} \
     --rucio-register-config "$CONFIG_FILE" \
     --log-level DEBUG \
     --chunk-size 30 \
-    --uuidlist {}'
+    --uuidlist {}; echo "Time: $(date +%s.%N)"'
 
 # head -n 10 "$first_uuid_file"
 
