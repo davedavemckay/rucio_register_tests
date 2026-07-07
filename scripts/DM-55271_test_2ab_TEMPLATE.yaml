@@ -1,6 +1,6 @@
-# Run with `bps submitcmd DM-55271_test_1.yaml`
+# Run with `bps submitcmd DM-55271_test_-n-.yaml`
 wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
-computeSite: "TEMPLATE_COMPUTE_SITE"
+computeSite: TEMPLATE_COMPUTE_SITE
 
 site:
   TEMPLATE_COMPUTE_SITE:
@@ -8,6 +8,18 @@ site:
     bpsUseShared: false
     bpsUseRunTempSpace: true
     softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
+    
+    customEnvSetup: >
+      pwd;
+      
+      git clone https://github.com/lsst/rucio_register;
+      pushd rucio_register;
+      git checkout tickets/DM-55271;
+      setup -j -r .;
+      scons;
+      popd;
+      
+      taskset -pc $$;
 
   bps_submit:
     bpsUseShared: true

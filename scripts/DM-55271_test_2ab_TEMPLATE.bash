@@ -4,7 +4,7 @@ export SCOPE="dp2_prep"
 export COLLECTION="TEMPLATE_COLLECTION"
 export SITE="TEMPLATE_SITE"
 export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
-export TEST_NAME="DM-55271-test_2a"
+export TEST_NAME="DM-55271-test_2ab"
 
 rucio whoami
 
@@ -54,4 +54,13 @@ if [ "$result1" != "0" ]; then
 else
     echo "rucio-register $TEST_NAME Succeeded"
 fi
+
+head -n 100 $(ls -t uuids | tail -n 1)
+
+# find ./uuids -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register data-products \
+# --repo "$BUTLER_REPO" \
+# --dataset-type "$TYPE" \
+# --collections "$COLLECTION" \
+# --rucio-dataset {}'
+
 exit 0
