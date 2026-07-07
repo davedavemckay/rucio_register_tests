@@ -55,7 +55,7 @@ else
     echo "rucio-register $TEST_NAME Succeeded"
 fi
 
-ls -t uuids/
+tree uuids/
 
 # head -n 10 "$first_uuid_file"
 
