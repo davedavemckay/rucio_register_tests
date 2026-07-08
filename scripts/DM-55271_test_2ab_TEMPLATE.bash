@@ -31,7 +31,7 @@ rucio-register auto-register \
 --rucio-register-config "$CONFIG_FILE" \
 --log-level DEBUG \
 --max-dataset-types 20 \
---out-dir "uuids" \
+--out-dir "uuids"
 
     #
 
@@ -58,11 +58,13 @@ fi
 
 file_count=$(for f in `find uuids/ -type f`; do wc -l $f | awk '{print $1}'; done | awk '{s+=$1} END {print s}')
 echo "File count: $file_count"
+echo "UUID files:\n `find uuids/ -type f -exec bash -c 'echo -n "{} "; wc -l {} | awk "{print \$1}"' \;`"
 
 setup lsst_distrib -t w_2026_23
 eups list -s rucio_register
 echo "Starting rucio-register dataset-list for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
 echo "Time: $(date +%s.%N)"
+# Edit this find command to restrict registration to particular uuid files
 find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register dataset-list \
     --repo "$BUTLER_REPO" \
     --rucio-dataset $DATASET/{} \
