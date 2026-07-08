@@ -58,7 +58,7 @@ fi
 
 file_count=$(for f in `find uuids/ -type f`; do wc -l $f | awk '{print $1}'; done | awk '{s+=$1} END {print s}')
 echo "File count: $file_count"
-echo "UUID files:\n `find uuids/ -type f -exec bash -c 'echo -n "{} "; wc -l {} | awk "{print \$1}"' \;`"
+echo -e "UUID files:\n `find uuids/ -type f -exec bash -c 'echo -n "{} "; wc -l {} | awk "{print \$1}"' \;`"
 
 setup lsst_distrib -t w_2026_23
 eups list -s rucio_register
