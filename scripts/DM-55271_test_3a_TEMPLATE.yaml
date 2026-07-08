@@ -1,9 +1,10 @@
+# Run with `bps submitcmd DM-55271_test_-n-.yaml`
 wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
-computeSite: LANCS
+computeSite: TEMPLATE_COMPUTE_SITE
 
 site:
-  lancs:
-    nodeset: "LANCS"
+  TEMPLATE_COMPUTE_SITE:
+    nodeset: "TEMPLATE_NODESET"
     bpsUseShared: false
     bpsUseRunTempSpace: true
     softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
@@ -11,7 +12,6 @@ site:
     customEnvSetup: >
       pwd;
       
-      # Pull and setup your parallelized rucio_register branch
       git clone https://github.com/lsst/rucio_register;
       pushd rucio_register;
       git checkout tickets/DM-55271;
@@ -19,12 +19,20 @@ site:
       scons;
       popd;
       
-      # test scripts
-      git clone https://github.com/davedavemckay/rucio_register_tests;
-      
-      # Add any specific setup commands for the test repo here if needed
-      
       taskset -pc $$;
+
+  bps_submit:
+    bpsUseShared: true
+    bpsUseRunTempSpace: false
+    softwarePath: "/sdf/group/rubin/sw/w_latest"
+    nodeset: "BPS_SUBMIT"
+    customEnvSetup: >
+      pushd /sdf/data/rubin/user/dmckayuk/htcondor_runs/remote_submission/DM-53494/ctrl_bps;
+      setup -j -r .;
+      popd;
+      pushd /sdf/data/rubin/user/dmckayuk/htcondor_runs/remote_submission/DM-53494/ctrl_bps_htcondor;
+      setup -j -r .;
+      popd;
 
 lsstVersion: "w_2026_23"
 project: dev
@@ -34,25 +42,23 @@ fileDistributionEndpoint: "${LSST_RUN_TEMP_SPACE}/bps_dev/payload/{uniqProcName}
 submitCmd: True
 numberOfRetries: 0
 
-# 4. Payload / Execution
-# Since you aren't running standard pipetasks, you define your payload naming here.
-# Depending on how your tests execute, you might need to supply a generic template 
-# or execute your test script directly via commandLine or a custom block.
 payload:
-  payloadName: "DM-55271-tests/{computeSite}"
-  # If your test scripts still rely on querying a butler for context before registering:
-  inCollection: "u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z"
+  payloadName: "TEMPLATE_TEST_NAME/{computeSite}"
+  # Keep this collection in sync with the default COLLECTION in DM-55271_test_1.bash.
+  inCollection: "TEMPLATE_COLLECTION"
   # dataQuery: "exposure = 34342 AND detector = 2"
   butlerConfig: "dp2_prep"
 
 customJob:
   queue: ""
-  requestMemory: 32000
-  executable: "bash"
-  arguments: "rucio_register_tests/scripts/DM-55271_test_3a.bash"
+  requestCpus: 10
+  requestMemory: 16000
+  executable: "TEMPLATE_BASH_FILE"
+  arguments: "0"
 
-# 5. Resource Allocation
-# Adjust these based on the concurrency limits you set in your ThreadPoolExecutor
 finalJob:
-  requestCpus: 4      # Scaled up slightly to accommodate your parallel threads
-  requestMemory: 8000 # Adjust based on memory overhead of the Rucio/Butler clients
+  requestCpus: 10
+  requestMemory: 16000
+
+preparePayloadWorkflow:
+  computeSite: bps_submit
