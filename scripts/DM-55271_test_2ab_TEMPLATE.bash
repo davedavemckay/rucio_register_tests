@@ -29,7 +29,7 @@ rucio-register auto-register \
 --repo "$BUTLER_REPO" \
 --dry-run \
 --rucio-register-config "$CONFIG_FILE" \
---log-level DEBUG \
+--log-level INFO \
 --max-dataset-types 20 \
 --out-dir "uuids"
 
