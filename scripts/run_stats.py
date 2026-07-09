@@ -8,7 +8,6 @@ using_autoregistration = False
 
 if os.system('grep "Auto-registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
     using_autoregistration = True
-# grep Auto-registration summary - Total files registered: 273 | Total registration failures: 0 | Total time: 22.814 s | Registrations per second (Hz): 11.966
 
 if not using_autoregistration:
     with open(sys.argv[1], 'r') as f:
@@ -32,7 +31,7 @@ else:
         lines = f.readlines()
         for line in lines:
             if "Auto-registration summary" in line:
-                stats = line.split('|')
+                stats = line.split('Auto-registration summary')[1].strip(' - ').split('|')
                 for stat in stats:
                     if "Total" in stat:
                         if "time" in stat:
