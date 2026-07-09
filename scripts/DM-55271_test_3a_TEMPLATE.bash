@@ -43,14 +43,5 @@ else
 fi
 
 echo "End Time: $(date +%s.%N)"
-# Edit this find command to restrict registration to particular uuid files
-
-# head -n 10 "$first_uuid_file"
-
-# find ./uuids -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register data-products \
-# --repo "$BUTLER_REPO" \
-# --dataset-type "$TYPE" \
-# --collections "$COLLECTION" \
-# --rucio-dataset {}'
 
 exit 0

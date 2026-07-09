@@ -44,7 +44,7 @@ numberOfRetries: 0
 
 payload:
   payloadName: "TEMPLATE_TEST_NAME/{computeSite}"
-  # Keep this collection in sync with the default COLLECTION in DM-55271_test_1.bash.
+  # Keep this collection in sync with the default COLLECTION in DM-55271_test_3a.bash.
   inCollection: "TEMPLATE_COLLECTION"
   # dataQuery: "exposure = 34342 AND detector = 2"
   butlerConfig: "dp2_prep"
