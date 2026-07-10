@@ -42,7 +42,7 @@ elif using_autoregistration_started:
     with open(sys.argv[1], 'r') as f:
         lines = f.readlines()
         for line in lines:
-            if "Batch reg" in line:
+            if "Batch registration summary" in line:
                 reg_summary_lines.append(line)
     for rs_line in reg_summary_lines:
         dataset = rs_line.split()[-6].strip()
