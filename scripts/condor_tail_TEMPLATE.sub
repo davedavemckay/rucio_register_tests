@@ -1,0 +1,8 @@
+universe = local
+executable = /usr/bin/condor_tail
+transfer_executable = False
+arguments = -maxbytes 1048576 TEMPLATE_JOB_ID
+output = condor_tail.$(Cluster).out
+error = condor_tail.$(Cluster).out
+log = condor_tail.$(Cluster).log
+queue
