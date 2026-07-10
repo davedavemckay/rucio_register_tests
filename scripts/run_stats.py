@@ -18,7 +18,7 @@ if using_autoregistration_finished:
     with open(sys.argv[1], 'r') as f:
         lines = f.readlines()
         for line in lines:
-            if "Auto-reg" in line:
+            if "Auto-registration summary" in line:
                 stats = line.split('Auto-registration summary')[1].strip(' - ').split('|')
                 for stat in stats:
                     if "Total" in stat:
