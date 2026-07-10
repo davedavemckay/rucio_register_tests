@@ -51,13 +51,13 @@ payload:
 
 customJob:
   queue: ""
-  requestCpus: 10
+  requestCpus: 12
   requestMemory: 16000
   executable: "TEMPLATE_BASH_FILE"
   arguments: "0"
 
 finalJob:
-  requestCpus: 10
+  requestCpus: 12
   requestMemory: 16000
 
 preparePayloadWorkflow:
