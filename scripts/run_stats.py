@@ -8,9 +8,9 @@ file_count = 0
 using_autoregistration_finished = False
 using_autoregistration_started = False
 
-if os.system('grep "Auto-reg" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
+if os.system('grep "Auto-registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
     using_autoregistration_finished = True
-elif os.system('grep "Batch reg" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
+elif os.system('grep "Batch registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
     using_autoregistration_started = True
 
 
