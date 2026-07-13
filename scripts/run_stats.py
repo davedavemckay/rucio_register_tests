@@ -67,6 +67,7 @@ elif using_autoregistration_started:
                     print(f"Batch registration finished at: {batch_end_time}")
                     total_cpu_time += (batch_end_time - batch_start_time).total_seconds()
                     stats = rs_line.split(dataset)[1].strip(' - ').split(', ')
+                    print(stats)
                     for stat in stats:
                         if "registered" in stat:
                             file_count += int(stat.split(':')[1].strip())
