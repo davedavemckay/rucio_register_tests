@@ -46,6 +46,8 @@ elif using_autoregistration_started:
                 reg_summary_lines.append(line)
     for rs_line in reg_summary_lines:
         dataset = rs_line.split()[-6].strip()
+        file_count = 0
+        failures = 0
         with open(sys.argv[1], 'r') as f:
             lines = f.readlines()
             for line in lines:
@@ -57,9 +59,9 @@ elif using_autoregistration_started:
                     stats = rs_line.split(dataset)[1].strip(' - ').split(', ')
                     for stat in stats:
                         if "registered" in stat:
-                            file_count = int(stat.split(':')[1].strip())
+                            file_count += int(stat.split(':')[1].strip())
                         elif "failed" in stat:
-                            failures = int(stat.split(':')[1].strip())
+                            failures += int(stat.split(':')[1].strip())
                             break
     assert isinstance(batch_start_time, datetime) and isinstance(batch_end_time, datetime), "Batch start and end times must be datetime objects"
     time_delta = (batch_end_time - batch_start_time).total_seconds()
