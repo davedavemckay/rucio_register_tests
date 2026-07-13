@@ -38,7 +38,18 @@ if using_autoregistration_finished:
     print(f"Registration rate: {registry_rate:.2f} Hz (files/second)")
 
 elif using_autoregistration_started:
+
     reg_summary_lines = []
+    process_batch_lines = []
+    with open(sys.argv[1], 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            if "Batch registration summary" in line:
+                reg_summary_lines.append(line)
+            elif "process_batch" in line:
+                process_batch_lines.append(line)
+
+
     dataset = rs_line.split()[-6].strip()
     file_count = 0
     failures = 0
@@ -46,36 +57,29 @@ elif using_autoregistration_started:
     total_cpu_time = 0
     first_start_time = None
     last_end_time = None
-    with open(sys.argv[1], 'r') as f:
-        lines = f.readlines()
-        for line in lines:
-            if "Batch registration summary" in line:
-                reg_summary_lines.append(line)
+
     for rs_line in reg_summary_lines:
-        
-        with open(sys.argv[1], 'r') as f:
-            lines = f.readlines()
-            for line in lines:
-                if dataset in line and "process_batch" in line:       
-                    batch_start_time = datetime.fromisoformat(' '.join(line.split()[1:3]))
-                    if first_start_time is None or batch_start_time < first_start_time:
-                        first_start_time = batch_start_time
-                    print(f"Batch registration started at: {batch_start_time}")
-                    print(f"Batch registration started at: {batch_start_time}")
-                    batch_end_time = datetime.fromisoformat(' '.join(rs_line.split()[1:3]))
-                    if last_end_time is None or batch_end_time > last_end_time:
-                        last_end_time = batch_end_time
-                    print(f"Batch registration finished at: {batch_end_time}")
-                    total_cpu_time += (batch_end_time - batch_start_time).total_seconds()
-                    stats = rs_line.split(dataset)[1].strip(' - ').strip().split(', ')
-                    print(stats)
-                    for stat in stats:
-                        if "registered" in stat:
-                            file_count += int(stat.split(':')[1].strip())
-                            print(file_count)
-                        elif "failed" in stat:
-                            failures += int(stat.split(':')[1].strip())
-                            break
+        for pb_line in process_batch_lines:
+            if dataset in pb_line and "process_batch" in pb_line:       
+                batch_start_time = datetime.fromisoformat(' '.join(pb_line.split()[1:3]))
+                if first_start_time is None or batch_start_time < first_start_time:
+                    first_start_time = batch_start_time
+                print(f"Batch registration started at: {batch_start_time}")
+                print(f"Batch registration started at: {batch_start_time}")
+                batch_end_time = datetime.fromisoformat(' '.join(rs_line.split()[1:3]))
+                if last_end_time is None or batch_end_time > last_end_time:
+                    last_end_time = batch_end_time
+                print(f"Batch registration finished at: {batch_end_time}")
+                total_cpu_time += (batch_end_time - batch_start_time).total_seconds()
+                stats = rs_line.split(dataset)[1].strip(' - ').strip().split(', ')
+                print(stats)
+                for stat in stats:
+                    if "registered" in stat:
+                        file_count += int(stat.split(':')[1].strip())
+                        print(file_count)
+                    elif "failed" in stat:
+                        failures += int(stat.split(':')[1].strip())
+                        break
     print(f"First batch registration started at: {first_start_time}")
     print(f"Last batch registration finished at: {last_end_time}")
     assert isinstance(first_start_time, datetime) and isinstance(last_end_time, datetime), "First and last batch start and end times must be datetime objects"
