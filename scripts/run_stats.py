@@ -39,19 +39,20 @@ if using_autoregistration_finished:
 
 elif using_autoregistration_started:
     reg_summary_lines = []
+    dataset = rs_line.split()[-6].strip()
+    file_count = 0
+    failures = 0
+    total_wall_time = 0
+    total_cpu_time = 0
+    first_start_time = None
+    last_end_time = None
     with open(sys.argv[1], 'r') as f:
         lines = f.readlines()
         for line in lines:
             if "Batch registration summary" in line:
                 reg_summary_lines.append(line)
     for rs_line in reg_summary_lines:
-        dataset = rs_line.split()[-6].strip()
-        file_count = 0
-        failures = 0
-        total_wall_time = 0
-        total_cpu_time = 0
-        first_start_time = None
-        last_end_time = None
+        
         with open(sys.argv[1], 'r') as f:
             lines = f.readlines()
             for line in lines:
