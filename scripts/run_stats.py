@@ -63,18 +63,15 @@ elif using_autoregistration_started:
                 if first_start_time is None or batch_start_time < first_start_time:
                     first_start_time = batch_start_time
                 print(f"Batch registration started at: {batch_start_time}")
-                print(f"Batch registration started at: {batch_start_time}")
                 batch_end_time = datetime.fromisoformat(' '.join(rs_line.split()[1:3]))
                 if last_end_time is None or batch_end_time > last_end_time:
                     last_end_time = batch_end_time
                 print(f"Batch registration finished at: {batch_end_time}")
                 total_cpu_time += (batch_end_time - batch_start_time).total_seconds()
                 stats = rs_line.split(dataset)[1].strip(' - ').strip().split(', ')
-                print(stats)
                 for stat in stats:
                     if "registered" in stat:
                         file_count += int(stat.split(':')[1].strip())
-                        print(file_count)
                     elif "failed" in stat:
                         failures += int(stat.split(':')[1].strip())
                         break
