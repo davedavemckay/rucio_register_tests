@@ -28,8 +28,9 @@ rucio-register auto-register \
 --repo "$BUTLER_REPO" \
 --rucio-register-config "$CONFIG_FILE" \
 --log-level INFO \
---max-dataset-types 5 \
---max-workers 5 \
+--max-dataset-types 10 \
+--collection-workers 5 \
+--batch-workers 5 \
 --max-retries 1
 
 result1=$?
