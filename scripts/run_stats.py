@@ -66,6 +66,7 @@ elif using_autoregistration_started:
     assert isinstance(batch_start_time, datetime) and isinstance(batch_end_time, datetime), "Batch start and end times must be datetime objects"
     time_delta = (batch_end_time - batch_start_time).total_seconds()
     registry_rate = float(file_count) / time_delta if time_delta > 0 else 0
+    print("In-progress registration stats.")
     print(f"Total time taken: {time_delta:.6f} seconds")
     print(f"Files registered: {file_count}")
     print(f"Failures: {failures}")
