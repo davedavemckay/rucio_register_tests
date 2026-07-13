@@ -59,7 +59,7 @@ elif using_autoregistration_started:
                     batch_start_time = datetime.fromisoformat(' '.join(line.split()[1:3]))
                     if first_start_time is None or batch_start_time < first_start_time:
                         first_start_time = batch_start_time
-                    print(f"atch registration started at: {batch_start_time}")
+                    print(f"Batch registration started at: {batch_start_time}")
                     print(f"Batch registration started at: {batch_start_time}")
                     batch_end_time = datetime.fromisoformat(' '.join(rs_line.split()[1:3]))
                     if last_end_time is None or batch_end_time > last_end_time:
