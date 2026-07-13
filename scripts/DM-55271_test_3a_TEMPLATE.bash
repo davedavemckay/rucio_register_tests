@@ -33,7 +33,7 @@ rucio-register auto-register \
 --max-retries 1
 
 result1=$?
-echo "Time: $(date +%s.%N) - Finished rucio-register auto-register --dryrun for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
+echo "Time: $(date +%s.%N) - Finished rucio-register auto-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
 
 echo $result1
 if [ "$result1" != "0" ]; then
