@@ -48,9 +48,6 @@ elif using_autoregistration_started:
                 reg_summary_lines.append(line)
             elif "process_batch" in line:
                 process_batch_lines.append(line)
-
-
-    dataset = rs_line.split()[-6].strip()
     file_count = 0
     failures = 0
     total_wall_time = 0
@@ -59,6 +56,7 @@ elif using_autoregistration_started:
     last_end_time = None
 
     for rs_line in reg_summary_lines:
+        dataset = rs_line.split()[-6].strip()
         for pb_line in process_batch_lines:
             if dataset in pb_line and "process_batch" in pb_line:       
                 batch_start_time = datetime.fromisoformat(' '.join(pb_line.split()[1:3]))
