@@ -23,6 +23,10 @@ def batch_stats(filename=''):
                 reg_summary_lines.append(line)
             elif "process_batch" in line:
                 process_batch_lines.append(line)
+    if len(reg_summary_lines) == 0:
+        raise ValueError("No batch registration summary lines found in the log file.")
+    if len(process_batch_lines) == 0:
+        raise ValueError("No process_batch lines found in the log file.")
 
     total_wall_time = 0
     total_cpu_time = 0
@@ -71,7 +75,11 @@ def batch_stats(filename=''):
     print(f"Registration rate: {registry_rate:.2f} Hz (files/second)")
 
 if using_autoregistration_started or using_autoregistration_finished:
-    batch_stats(sys.argv[1])
+    try:
+        batch_stats(sys.argv[1])
+    except ValueError as e:
+        print(f"Error: {e}")
+        if using_autoregistration_finished:
 
 else:
     with open(sys.argv[1], 'r') as f:
