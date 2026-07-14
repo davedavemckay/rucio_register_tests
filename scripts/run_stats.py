@@ -39,12 +39,8 @@ def batch_stats(filename=''):
         for pb_line in process_batch_lines:
             if dataset in pb_line and "process_batch" in pb_line:       
                 batch_start_times.append(datetime.fromisoformat(' '.join(pb_line.split()[1:3])))
-                if first_start_time is None or batch_start_times[-1] < first_start_time:
-                    first_start_time = batch_start_times[-1]
                 # print(f"Batch registration started at: {batch_start_times[-1]}")
                 batch_end_times.append(datetime.fromisoformat(' '.join(rs_line.split()[1:3])))
-                if last_end_time is None or batch_end_times[-1] > last_end_time:
-                    last_end_time = batch_end_times[-1]
                 # print(f"Batch registration finished at: {batch_end_times[-1]}")
                 total_cpu_time += (batch_end_times[-1] - batch_start_times[-1]).total_seconds()
                 stats = rs_line.split(dataset)[1].strip(' - ').strip().split(', ')
@@ -60,9 +56,10 @@ def batch_stats(filename=''):
                     f"end time: {batch_end_times[-1]}; "\
                     f"batch time: {batch_end_times[-1] - batch_start_times[-1]}; "\
                     f"registration rate: {batch_file_counts[-1] / (batch_end_times[-1] - batch_start_times[-1]).total_seconds() if (batch_end_times[-1] - batch_start_times[-1]).total_seconds() > 0 else 0:.2f} Hz")
+    chronological_batch_end_times = sorted(batch_end_times)
+    chronological_batch_start_times = sorted(batch_start_times)
 
-    assert isinstance(first_start_time, datetime) and isinstance(last_end_time, datetime), "First and last batch start and end times must be datetime objects"
-    total_wall_time = (batch_end_times[-1] - batch_end_times[0]).total_seconds()
+    total_wall_time = (chronological_batch_end_times[-1] - chronological_batch_start_times[0]).total_seconds()
     file_count = sum(batch_file_counts)
     failures = sum(batch_failure_counts)
     registry_rate = float(file_count) / total_wall_time if total_wall_time > 0 else 0
