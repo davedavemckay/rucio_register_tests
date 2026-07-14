@@ -34,7 +34,7 @@ def batch_stats(filename=''):
 
 
     for rs_line in reg_summary_lines:
-        dataset = rs_line.split()[-6].strip()
+        dataset = rs_line.split()[-6].strip().split('/')[-1].strip()
         batch_datasets.append(dataset)
         for pb_line in process_batch_lines:
             if dataset in pb_line and "process_batch" in pb_line:       
