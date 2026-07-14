@@ -1,9 +1,9 @@
 #!/bin/bash
-if [ $* -eq 1 ];
+if [ $# -eq 1 ];
 then
         job_id=$1
         max_bytes=1048576
-elif [ $* -eq 2 ];
+elif [ $# -eq 2 ];
 then
         job_id=$1
         max_bytes=$2
