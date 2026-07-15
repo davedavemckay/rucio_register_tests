@@ -8,10 +8,8 @@ file_count = 0
 using_autoregistration_finished = False
 using_autoregistration_started = False
 
-if os.system('grep "Auto-registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
-    using_autoregistration_finished = True
-elif os.system('grep "Batch registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
-    using_autoregistration_started = True
+if os.system('grep "Batch registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
+    using_autoregistration = True
 
 def batch_stats(filename=''):
     reg_summary_lines = []
@@ -23,10 +21,8 @@ def batch_stats(filename=''):
                 reg_summary_lines.append(line)
             elif "process_batch" in line:
                 process_batch_lines.append(line)
-    if len(reg_summary_lines) == 0 and using_autoregistration_started:
+    if len(reg_summary_lines) == 0 and using_autoregistration:
         raise ValueError("No batch registration summary lines found in the log file.")
-    if len(process_batch_lines) == 0 and using_autoregistration_finished:
-        raise ValueError("No process_batch lines found in the log file.")
 
     total_wall_time = 0
     total_cpu_time = 0
@@ -35,6 +31,8 @@ def batch_stats(filename=''):
     batch_end_times = []
     batch_file_counts = []
     batch_failure_counts = []
+
+    print(f"process_batch_lines: {len(process_batch_lines)}; reg_summary_lines: {len(reg_summary_lines)}")
 
 
     for rs_line in reg_summary_lines:
@@ -76,35 +74,12 @@ def batch_stats(filename=''):
     print(f"Failures: {failures}")
     print(f"Registration rate: {registry_rate:.2f} Hz (files/second)")
 
-if using_autoregistration_started or using_autoregistration_finished:
+if using_autoregistration:
     try:
         batch_stats(sys.argv[1])
     except ValueError as e:
         print(f"Error: {e}")
-        if using_autoregistration_finished:
-            total_time = 0
-            failures = 0
-            registry_rate = 0
-            with open(sys.argv[1], 'r') as f:
-                lines = f.readlines()
-                for line in lines:
-                    if "Auto-registration summary" in line:
-                        stats = line.split('Auto-registration summary')[1].strip(' - ').split('|')
-                        for stat in stats:
-                            if "Total" in stat:
-                                if "time" in stat:
-                                    total_time = float(stat.split(':')[1].strip().split()[0])
-                                elif "files registered" in stat:
-                                    file_count = int(stat.split(':')[1].strip())
-                                elif "registration failures" in stat:
-                                    failures = int(stat.split(':')[1].strip())
-                            elif "Registrations per second" in stat:
-                                registry_rate = float(stat.split(':')[1].strip().split()[0])
-                                break
-            print(f"Total time taken: {total_time:.6f} seconds")
-            print(f"Files registered: {file_count}")
-            print(f"Failures: {failures}")
-            print(f"Registration rate: {registry_rate:.2f} Hz (files/second)")
+
 else:
     with open(sys.argv[1], 'r') as f:
         lines = f.readlines()
