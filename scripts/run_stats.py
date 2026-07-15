@@ -41,25 +41,26 @@ def batch_stats(filename=''):
         dataset = rs_line.split()[-6].strip().split('/')[-1].strip()
         batch_datasets.append(dataset)
         for pb_line in process_batch_lines:
-            if dataset in pb_line and "process_batch" in pb_line:       
-                batch_start_times.append(datetime.fromisoformat(' '.join(pb_line.split()[1:3])))
-                # print(f"Batch registration started at: {batch_start_times[-1]}")
-                batch_end_times.append(datetime.fromisoformat(' '.join(rs_line.split()[1:3])))
-                # print(f"Batch registration finished at: {batch_end_times[-1]}")
-                total_cpu_time += (batch_end_times[-1] - batch_start_times[-1]).total_seconds()
-                stats = rs_line.split(dataset)[1].strip(' - ').strip().split(', ')
-                for stat in stats:
-                    if "registered" in stat:
-                        batch_file_counts.append(int(stat.split(':')[1].strip()))
-                    elif "failed" in stat:
-                        batch_failure_counts.append(int(stat.split(':')[1].strip()))
-                print(f"Batch stats: dataset: {dataset}; "\
-                    f"file count: {batch_file_counts[-1]}; "\
-                    f"failure count: {batch_failure_counts[-1]}; "\
-                    f"start time: {batch_start_times[-1]}; "\
-                    f"end time: {batch_end_times[-1]}; "\
-                    f"batch time: {batch_end_times[-1] - batch_start_times[-1]}; "\
-                    f"registration rate: {batch_file_counts[-1] / (batch_end_times[-1] - batch_start_times[-1]).total_seconds() if (batch_end_times[-1] - batch_start_times[-1]).total_seconds() > 0 else 0:.2f} Hz")
+            # if dataset in pb_line and "process_batch" in pb_line:       
+            batch_start_times.append(datetime.fromisoformat(' '.join(pb_line.split()[1:3])))
+            print(pb_line)
+            print(f"Batch registration started at: {batch_start_times[-1]}")
+            batch_end_times.append(datetime.fromisoformat(' '.join(rs_line.split()[1:3])))
+            print(f"Batch registration finished at: {batch_end_times[-1]}")
+            total_cpu_time += (batch_end_times[-1] - batch_start_times[-1]).total_seconds()
+            stats = rs_line.split(dataset)[1].strip(' - ').strip().split(', ')
+            for stat in stats:
+                if "registered" in stat:
+                    batch_file_counts.append(int(stat.split(':')[1].strip()))
+                elif "failed" in stat:
+                    batch_failure_counts.append(int(stat.split(':')[1].strip()))
+            print(f"Batch stats: dataset: {dataset}; "\
+                f"file count: {batch_file_counts[-1]}; "\
+                f"failure count: {batch_failure_counts[-1]}; "\
+                f"start time: {batch_start_times[-1]}; "\
+                f"end time: {batch_end_times[-1]}; "\
+                f"batch time: {batch_end_times[-1] - batch_start_times[-1]}; "\
+                f"registration rate: {batch_file_counts[-1] / (batch_end_times[-1] - batch_start_times[-1]).total_seconds() if (batch_end_times[-1] - batch_start_times[-1]).total_seconds() > 0 else 0:.2f} Hz")
     chronological_batch_end_times = list(batch_end_times)
     chronological_batch_start_times = list(batch_start_times)
     chronological_batch_end_times.sort()
