@@ -21,9 +21,15 @@ fi
 if [ $SITE = "LANCS" ]; then
     RSE_ROOT="/cephfs/grid/lsst/repos/${BUTLER_REPO}/"
     DTN_URL="davs://xgate.hec.lancs.ac.uk:1094${RSE_ROOT}"
+    if [ $TEST = "test_checksum_mechanisms" ]; then
+        TEST_FILE="u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z/analyzeSingleVisitStarAssociation_log/6119/analyzeSingleVisitStarAssociation_log_LSSTCam_6119_lsst_cells_v2_u_dmckayuk_w_2026_23_DM-55252_20260619T131002Z.jso"
+    fi
 elif [ $SITE = "RAL" ]; then
     RSE_ROOT="/lsst:datadisk/butler/repos/${BUTLER_REPO}/"
     DTN_URL="davs://webdav.echo.stfc.ac.uk:1094${RSE_ROOT}"
+    if [ $TEST = "test_checksum_mechanisms" ]; then
+        TEST_FILE="u/dmckayuk/w_2026_23/DM-55251/20260618T080828Z/analyzeSingleVisitStarAssociation_log/6105/analyzeSingleVisitStarAssociation_log_LSSTCam_6105_lsst_cells_v2_u_dmckayuk_w_2026_23_DM-55251_20260618T080828Z.json"
+    fi
 else
     echo "Unknown SITE: $SITE"
     exit 1
@@ -39,6 +45,10 @@ sed -e "s|TEMPLATE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.bash \
     -e "s|TEMPLATE_RSE_ROOT|$RSE_ROOT|g" \
     -e "s|TEMPLATE_DTN_URL|$DTN_URL|g" \
     > ${TEST_NAME}.bash.tmp && mv ${TEST_NAME}.bash.tmp ${TEST_NAME}_${SITE}.bash
+
+if [ $TEST = "test_checksum_mechanisms" ]; then
+    sed -i "s|TEMPLATE_TEST_FILE|$TEST_FILE|g" ${TEST_NAME}_${SITE}.bash
+fi
 
 # yaml file edits
 
@@ -60,4 +70,5 @@ echo "TEST: $TEST_NAME"
 echo "BUTLER_REPO: $BUTLER_REPO"
 echo "RSE_ROOT: $RSE_ROOT"
 echo "DTN_URL: $DTN_URL"
+echo "TEST_FILE: $TEST_FILE"
 set -x
