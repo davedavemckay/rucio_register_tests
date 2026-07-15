@@ -80,7 +80,29 @@ if using_autoregistration_started or using_autoregistration_finished:
     except ValueError as e:
         print(f"Error: {e}")
         if using_autoregistration_finished:
-
+            total_time = 0
+            failures = 0
+            registry_rate = 0
+            with open(sys.argv[1], 'r') as f:
+                lines = f.readlines()
+                for line in lines:
+                    if "Auto-registration summary" in line:
+                        stats = line.split('Auto-registration summary')[1].strip(' - ').split('|')
+                        for stat in stats:
+                            if "Total" in stat:
+                                if "time" in stat:
+                                    total_time = float(stat.split(':')[1].strip().split()[0])
+                                elif "files registered" in stat:
+                                    file_count = int(stat.split(':')[1].strip())
+                                elif "registration failures" in stat:
+                                    failures = int(stat.split(':')[1].strip())
+                            elif "Registrations per second" in stat:
+                                registry_rate = float(stat.split(':')[1].strip().split()[0])
+                                break
+            print(f"Total time taken: {total_time:.6f} seconds")
+            print(f"Files registered: {file_count}")
+            print(f"Failures: {failures}")
+            print(f"Registration rate: {registry_rate:.2f} Hz (files/second)")
 else:
     with open(sys.argv[1], 'r') as f:
         lines = f.readlines()
