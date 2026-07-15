@@ -54,13 +54,13 @@ def batch_stats(filename=''):
                     batch_file_counts.append(int(stat.split(':')[1].strip()))
                 elif "failed" in stat:
                     batch_failure_counts.append(int(stat.split(':')[1].strip()))
-            print(f"Batch stats: dataset: {dataset}; "\
-                f"file count: {batch_file_counts[-1]}; "\
-                f"failure count: {batch_failure_counts[-1]}; "\
-                f"start time: {batch_start_times[-1]}; "\
-                f"end time: {batch_end_times[-1]}; "\
-                f"batch time: {batch_end_times[-1] - batch_start_times[-1]}; "\
-                f"registration rate: {batch_file_counts[-1] / (batch_end_times[-1] - batch_start_times[-1]).total_seconds() if (batch_end_times[-1] - batch_start_times[-1]).total_seconds() > 0 else 0:.2f} Hz")
+            # print(f"Batch stats: dataset: {dataset}; "\
+            #     f"file count: {batch_file_counts[-1]}; "\
+            #     f"failure count: {batch_failure_counts[-1]}; "\
+            #     f"start time: {batch_start_times[-1]}; "\
+            #     f"end time: {batch_end_times[-1]}; "\
+            #     f"batch time: {batch_end_times[-1] - batch_start_times[-1]}; "\
+            #     f"registration rate: {batch_file_counts[-1] / (batch_end_times[-1] - batch_start_times[-1]).total_seconds() if (batch_end_times[-1] - batch_start_times[-1]).total_seconds() > 0 else 0:.2f} Hz")
     chronological_batch_end_times = list(batch_end_times)
     chronological_batch_start_times = list(batch_start_times)
     chronological_batch_end_times.sort()
