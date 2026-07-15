@@ -10,7 +10,7 @@ export TEST_FILE="TEMPLATE_TEST_FILE"
 
 echo "Time: $(date +%s.%N) - Starting test for $TEST_NAME"
 
-python "test_checksum_mechanisms.py" "$TEST_FILE"
+python "./rucio_register_tests/scripts/test_checksum_mechanisms.py" "$TEST_FILE"
 
 result1=$?
 echo "Time: $(date +%s.%N) - Finished test for $TEST_NAME"
