@@ -60,8 +60,10 @@ def batch_stats(filename=''):
                     f"end time: {batch_end_times[-1]}; "\
                     f"batch time: {batch_end_times[-1] - batch_start_times[-1]}; "\
                     f"registration rate: {batch_file_counts[-1] / (batch_end_times[-1] - batch_start_times[-1]).total_seconds() if (batch_end_times[-1] - batch_start_times[-1]).total_seconds() > 0 else 0:.2f} Hz")
-    chronological_batch_end_times = sorted(batch_end_times)
-    chronological_batch_start_times = sorted(batch_start_times)
+    chronological_batch_end_times = copy(batch_end_times)
+    chronological_batch_start_times = copy(batch_start_times)
+    chronological_batch_end_times.sort()
+    chronological_batch_start_times.sort()
 
     total_wall_time = (chronological_batch_end_times[-1] - chronological_batch_start_times[0]).total_seconds()
     file_count = sum(batch_file_counts)
