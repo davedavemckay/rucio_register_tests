@@ -19,7 +19,7 @@ def batch_stats(filename=''):
         for line in lines:
             if "Batch registration summary" in line:
                 reg_summary_lines.append(line)
-            elif "process_batch" in line:
+            elif "Submitting registration batch for" in line:
                 process_batch_lines.append(line)
     if len(reg_summary_lines) == 0 and using_autoregistration:
         raise ValueError("No batch registration summary lines found in the log file.")
