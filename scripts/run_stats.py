@@ -25,7 +25,7 @@ def batch_stats(filename=''):
                 process_batch_lines.append(line)
     if len(reg_summary_lines) == 0:
         raise ValueError("No batch registration summary lines found in the log file.")
-    if len(process_batch_lines) == 0:
+    elif len(process_batch_lines) == 0:
         raise ValueError("No process_batch lines found in the log file.")
 
     total_wall_time = 0
