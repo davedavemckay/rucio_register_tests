@@ -54,7 +54,7 @@ customJob:
   queue: ""
   requestCpus: 10
   requestMemory: 16000
-  executable: "./rucio_register_tests/scripts/test_checksum_mechanisms_TEMPLATE.bash"
+  executable: "./rucio_register_tests/scripts/test_checksum_mechanisms_{computeSite}.bash"
   arguments: "0"
 
 finalJob:
