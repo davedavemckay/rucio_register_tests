@@ -22,7 +22,7 @@ if [ $SITE = "LANCS" ]; then
     RSE_ROOT="/cephfs/grid/lsst/repos/${BUTLER_REPO}/"
     DTN_URL="davs://xgate.hec.lancs.ac.uk:1094${RSE_ROOT}"
     if [ $TEST = "test_checksum_mechanisms" ]; then
-        TEST_FILE="u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z/analyzeSingleVisitStarAssociation_log/6119/analyzeSingleVisitStarAssociation_log_LSSTCam_6119_lsst_cells_v2_u_dmckayuk_w_2026_23_DM-55252_20260619T131002Z.jso"
+        TEST_FILE="u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z/analyzeSingleVisitStarAssociation_log/6119/analyzeSingleVisitStarAssociation_log_LSSTCam_6119_lsst_cells_v2_u_dmckayuk_w_2026_23_DM-55252_20260619T131002Z.json"
     fi
 elif [ $SITE = "RAL" ]; then
     RSE_ROOT="/lsst:datadisk/butler/repos/${BUTLER_REPO}/"
