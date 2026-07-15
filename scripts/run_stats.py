@@ -43,7 +43,7 @@ def batch_stats(filename=''):
         for pb_line in process_batch_lines:
             # if dataset in pb_line and "process_batch" in pb_line:       
             batch_start_times.append(datetime.fromisoformat(' '.join(pb_line.split()[1:3])))
-            print(pb_line)
+            # print(pb_line)
             print(f"Batch registration started at: {batch_start_times[-1]}")
             batch_end_times.append(datetime.fromisoformat(' '.join(rs_line.split()[1:3])))
             print(f"Batch registration finished at: {batch_end_times[-1]}")
