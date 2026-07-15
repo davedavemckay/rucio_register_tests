@@ -64,6 +64,7 @@ def batch_stats(filename=''):
     chronological_batch_start_times = list(batch_start_times)
     chronological_batch_end_times.sort()
     chronological_batch_start_times.sort()
+    print(batch_end_times, batch_start_times)
     print(chronological_batch_end_times, chronological_batch_start_times)
 
     total_wall_time = (chronological_batch_end_times[-1] - chronological_batch_start_times[0]).total_seconds()
