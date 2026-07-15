@@ -65,14 +65,12 @@ def batch_stats(filename=''):
     chronological_batch_start_times = list(batch_start_times)
     chronological_batch_end_times.sort()
     chronological_batch_start_times.sort()
-    print(batch_end_times, batch_start_times)
-    print(chronological_batch_end_times, chronological_batch_start_times)
 
     total_wall_time = (chronological_batch_end_times[-1] - chronological_batch_start_times[0]).total_seconds()
     file_count = sum(batch_file_counts)
     failures = sum(batch_failure_counts)
     registry_rate = float(file_count) / total_wall_time if total_wall_time > 0 else 0
-    print("In-progress registration stats.")
+    print("Registration stats.")
     print(f"Total walltime: {total_wall_time:.6f} seconds")
     print(f"Total cputime: {total_cpu_time:.6f} seconds")
     print(f"Files registered: {file_count}")
