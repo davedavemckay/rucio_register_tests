@@ -20,7 +20,7 @@ site:
       popd;
       git clone https://github.com/davedavemckay/rucio_register_tests;
       
-      # taskset -pc $$;
+      taskset -pc $$;
 
   bps_submit:
     bpsUseShared: true
