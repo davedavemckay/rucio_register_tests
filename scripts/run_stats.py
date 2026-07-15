@@ -14,12 +14,14 @@ if os.system('grep "Batch registration summary" ' + sys.argv[1] + '> /dev/null 2
 def batch_stats(filename=''):
     reg_summary_lines = []
     process_batch_lines = []
+    this_dataset = ''
     with open(filename, 'r') as f:
         lines = f.readlines()
         for line in lines:
             if "Batch registration summary" in line:
                 reg_summary_lines.append(line)
-            elif "Submitting registration batch for" in line:
+                this_dataset = reg_summary_lines[-1].split()[-6].strip().split('/')[-1].strip()
+            elif this_dataset in line and "Submitting registration batch for" in line:
                 process_batch_lines.append(line)
     if len(reg_summary_lines) == 0 and using_autoregistration:
         raise ValueError("No batch registration summary lines found in the log file.")
