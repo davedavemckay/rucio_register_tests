@@ -182,12 +182,13 @@ def test_manual_download(uri):
 
 if __name__ == "__main__":
     default_uri = (
-        "davs://xgate.hec.lancs.ac.uk:1094/cephfs/grid/lsst/repos/dp2_prep/"
-        "u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z/analyzeSingleVisitStarAssociation_config/"
+        os.environ["DTN_URL"] + 
+        "/" + 
+        "u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z/analyzeSingleVisitStarAssociation_config/" +
         "analyzeSingleVisitStarAssociation_config_u_dmckayuk_w_2026_23_DM-55252_20260619T131002Z.py"
     )
     
-    uri = sys.argv[1] if len(sys.argv) > 1 else default_uri
+    uri = os.environ["DTN_URL"] + "/" + sys.argv[1] if len(sys.argv) > 1 else default_uri
     
     print(f"Running Checksum Diagnostics on URI:\n{uri}\n")
     
