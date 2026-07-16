@@ -29,7 +29,7 @@ rucio-register auto-register \
 --rucio-register-config "$CONFIG_FILE" \
 --log-level INFO \
 --max-dataset-types 10 \
---max-workers 11 \
+--max-workers 10 \
 --max-retries 1
 
 result1=$?
