@@ -106,15 +106,8 @@ def test_webdav_digest(uri):
             print("ERROR: Could not initialize DavClientPool.")
             return
             
-        # Translate scheme for urllib3 compat
-        http_uri = uri
-        if http_uri.startswith("davs://"):
-            http_uri = http_uri.replace("davs://", "https://", 1)
-        elif http_uri.startswith("dav://"):
-            http_uri = http_uri.replace("dav://", "http://", 1)
-
         print("Client Pool clients:", list(pool._clients.keys()))
-        client = pool.get_client_for_url(http_uri)
+        client = pool.get_client_for_url(uri)
         print(f"Client class selected: {client.__class__.__name__}")
         print(f"Client base URL: {client._base_url}")
         
@@ -125,8 +118,8 @@ def test_webdav_digest(uri):
         except Exception as e:
             print("Failed to get server details:", e)
             
-        print(f"Sending HEAD request with Want-Digest: adler32 to: {http_uri}")
-        resp = client.head(http_uri, headers={"Want-Digest": "adler32"})
+        print(f"Sending HEAD request with Want-Digest: adler32 to: {uri}")
+        resp = client.head(uri, headers={"Want-Digest": "adler32"})
         print(f"HTTP Response Status: {resp.status} {resp.reason}")
         print("HTTP Response Headers:")
         for header, val in resp.headers.items():
