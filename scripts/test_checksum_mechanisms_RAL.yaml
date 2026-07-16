@@ -1,0 +1,65 @@
+# Run with `bps submitcmd DM-55271_test_-n-.yaml`
+wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
+computeSite: RAL
+
+site:
+  RAL:
+    nodeset: "RAL"
+    bpsUseShared: false
+    bpsUseRunTempSpace: true
+    softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
+    
+    customEnvSetup: >
+      pwd;
+      
+      git clone https://github.com/lsst/rucio_register;
+      pushd rucio_register;
+      git checkout tickets/DM-55271;
+      setup -j -r .;
+      scons;
+      popd;
+      git clone https://github.com/davedavemckay/rucio_register_tests;
+      
+      taskset -pc $$;
+
+  bps_submit:
+    bpsUseShared: true
+    bpsUseRunTempSpace: false
+    softwarePath: "/sdf/group/rubin/sw/w_latest"
+    nodeset: "BPS_SUBMIT"
+    customEnvSetup: >
+      pushd /sdf/data/rubin/user/dmckayuk/htcondor_runs/remote_submission/DM-53494/ctrl_bps;
+      setup -j -r .;
+      popd;
+      pushd /sdf/data/rubin/user/dmckayuk/htcondor_runs/remote_submission/DM-53494/ctrl_bps_htcondor;
+      setup -j -r .;
+      popd;
+
+lsstVersion: "w_2026_23"
+project: dev
+campaign: rucio_parallel_tests
+bpsMakeCommand: false
+fileDistributionEndpoint: "${LSST_RUN_TEMP_SPACE}/bps_dev/payload/{uniqProcName}/"
+submitCmd: True
+numberOfRetries: 0
+
+payload:
+  payloadName: "test_checksum_mechanisms/{computeSite}"
+  # Keep this collection in sync with the default COLLECTION in DM-55271_test_1.bash.
+  inCollection: "u/dmckayuk/w_2026_23/DM-55251"
+  # dataQuery: "exposure = 34342 AND detector = 2"
+  butlerConfig: "dp2_prep"
+
+customJob:
+  queue: ""
+  requestCpus: 10
+  requestMemory: 16000
+  executable: "test_checksum_mechanisms_{computeSite}.bash"
+  arguments: "0"
+
+finalJob:
+  requestCpus: 10
+  requestMemory: 16000
+
+preparePayloadWorkflow:
+  computeSite: bps_submit
