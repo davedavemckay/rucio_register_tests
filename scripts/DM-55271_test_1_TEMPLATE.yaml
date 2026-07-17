@@ -21,6 +21,10 @@ site:
       pushd /sdf/data/rubin/user/dmckayuk/htcondor_runs/remote_submission/DM-53494/ctrl_bps_htcondor;
       setup -j -r .;
       popd;
+      git clone https://github.com/lsst/resources;
+      pushd resources;
+      setup -j -r .;
+      popd;
 
 lsstVersion: "w_2026_23"
 project: dev
