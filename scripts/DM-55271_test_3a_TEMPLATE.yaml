@@ -21,6 +21,7 @@ site:
       git clone https://github.com/lsst/resources;
       pushd resources;
       setup -j -r .;
+      scons;
       popd;
       
       taskset -pc $$;
