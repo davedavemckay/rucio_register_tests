@@ -88,14 +88,14 @@ def test_webdav_digest(uri):
         
         print("Imported lsst.resources and DavClientPool successfully.")
         
+        rp = ResourcePath(uri)
+        # Convert davs:// / dav:// URI to https:// / http:// URL for urllib3 compatibility
+        http_url = getattr(rp, "_internal_url", str(rp).replace("davs://", "https://").replace("dav://", "http://"))
+        
         # Initialize client pool if not already initialized
         pool = DavClientPool._instance
         if pool is None:
-            print("DavClientPool._instance is None. Instantiating via mock config/pool...")
-            from lsst.resources.davutils import DavConfigPool
-            # Attempt to use active instance or trigger resource path initialization
-            rp = ResourcePath(uri)
-            # Fetching info usually triggers DavClientPool initialization
+            print("DavClientPool._instance is None. Instantiating via ResourcePath.get_info()...")
             try:
                 rp.get_info()
             except Exception:
@@ -107,19 +107,12 @@ def test_webdav_digest(uri):
             return
             
         print("Client Pool clients:", list(pool._clients.keys()))
-        client = pool.get_client_for_url(uri)
+        client = pool.get_client_for_url(http_url)
         print(f"Client class selected: {client.__class__.__name__}")
         print(f"Client base URL: {client._base_url}")
-        
-        # Test Server header
-        try:
-            details = client.get_server_details(client._base_url)
-            print("Server details:", details)
-        except Exception as e:
-            print("Failed to get server details:", e)
             
-        print(f"Sending HEAD request with Want-Digest: adler32 to: {uri}")
-        resp = client.head(uri, headers={"Want-Digest": "adler32"})
+        print(f"Sending HEAD request with Want-Digest: adler32 to: {http_url}")
+        resp = client.head(http_url, headers={"Want-Digest": "adler32"})
         print(f"HTTP Response Status: {resp.status} {resp.reason}")
         print("HTTP Response Headers:")
         for header, val in resp.headers.items():
