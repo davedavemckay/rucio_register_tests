@@ -21,6 +21,7 @@ site:
       git clone https://github.com/lsst/resources;
       pushd resources;
       setup -j -r .;
+      scons;
       popd;
       git clone https://github.com/davedavemckay/rucio_register_tests;
       
@@ -39,7 +40,7 @@ site:
       setup -j -r .;
       popd;
 
-lsstVersion: "w_2026_23"
+lsstVersion: "w_2026_28"
 project: dev
 campaign: rucio_parallel_tests
 bpsMakeCommand: false
