@@ -27,7 +27,7 @@ rucio-register auto-register \
 --root-chain "$COLLECTION" \
 --repo "$BUTLER_REPO" \
 --rucio-register-config "$CONFIG_FILE" \
---log-level INFO \
+--log-level DEBUG \
 --max-dataset-types 10 \
 --max-workers 10 \
 --max-retries 1
