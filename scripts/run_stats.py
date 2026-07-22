@@ -5,10 +5,11 @@ from datetime import datetime
 times = []
 file_count = 0
 
+using_autoregistration = False
 using_autoregistration_finished = False
 using_autoregistration_started = False
 
-if os.system('grep "Batch registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
+if len(sys.argv) > 1 and os.system('grep "Batch registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
     using_autoregistration = True
 
 def batch_stats(filename=''):
@@ -20,7 +21,7 @@ def batch_stats(filename=''):
         for line in lines:
             if "Batch registration summary" in line:
                 reg_summary_lines.append(line)
-            elif "Registering batch for " in line or "Submitting registration batch for " in line:
+            elif ("Registering " in line or "Submitting " in line) and not ("Completed" in line or "summary" in line or "Done with" in line):
                 # Extract dataset
                 parts = line.split()
                 dataset = None
@@ -86,6 +87,10 @@ def batch_stats(filename=''):
     chronological_batch_start_times = list(batch_start_times)
     chronological_batch_end_times.sort()
     chronological_batch_start_times.sort()
+
+    if not chronological_batch_end_times or not chronological_batch_start_times:
+        print("No matching batch start/end timestamps found.")
+        return
 
     total_wall_time = (chronological_batch_end_times[-1] - chronological_batch_start_times[0]).total_seconds()
     file_count = sum(batch_file_counts)
