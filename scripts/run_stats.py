@@ -67,8 +67,8 @@ def batch_stats(filename=''):
         batch_start_times.append(start_time)
         batch_end_times.append(end_time)
         
-        print(f"Batch registration started at: {start_time}")
-        print(f"Batch registration finished at: {end_time}")
+        # print(f"Batch registration started at: {start_time}")
+        # print(f"Batch registration finished at: {end_time}")
         
         total_cpu_time += (end_time - start_time).total_seconds()
         stats = rs_line.split(dataset)[1].strip(' - ').strip().split(', ')
