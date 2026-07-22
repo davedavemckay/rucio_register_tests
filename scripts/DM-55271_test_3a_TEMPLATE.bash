@@ -29,6 +29,8 @@ rucio-register auto-register \
 --rucio-register-config "$CONFIG_FILE" \
 --log-level DEBUG \
 --max-dataset-types 10 \
+--chunk-size 1000 \
+--split-size 2000 \
 --max-workers 10 \
 --max-retries 1
 
