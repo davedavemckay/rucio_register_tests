@@ -70,7 +70,8 @@ find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register 
     --rucio-dataset $DATASET/{} \
     --rucio-register-config "$CONFIG_FILE" \
     --log-level INFO \
-    --chunk-size 30 \
+    --max-workers 1 \
+    --chunk-size 1000 \
     --uuidlist {}; echo "Time: $(date +%s.%N)"'
 
 # head -n 10 "$first_uuid_file"
