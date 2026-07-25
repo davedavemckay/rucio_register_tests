@@ -33,19 +33,6 @@ rucio-register auto-register \
 --max-dataset-types 20 \
 --out-dir "uuids"
 
-    #
-
-
-    # rucio-register data-products \
-    # --repo "$BUTLER_REPO" \
-    # --dataset-type "$TYPE" \
-    # --collections "$COLLECTION" \
-    # --rucio-dataset "$DATASET" \
-    # --rucio-register-config "$CONFIG_FILE" \
-    # --log-level DEBUG \
-    # --chunk-size 30
-
-# done
 result1=$?
 echo "Time: $(date +%s.%N) - Finished rucio-register auto-register --dryrun for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
 
@@ -55,31 +42,30 @@ if [ "$result1" != "0" ]; then
 else
     echo "rucio-register $TEST_NAME Succeeded"
 fi
+if [ -d uuids ];
+then
 
-file_count=$(for f in `find uuids/ -type f`; do wc -l $f | awk '{print $1}'; done | awk '{s+=$1} END {print s}')
-echo "File count: $file_count"
-echo -e "UUID files:\n `find uuids/ -type f -exec wc -l {} \;`"
+    file_count=$(for f in `find uuids/ -type f`; do wc -l $f | awk '{print $1}'; done | awk '{s+=$1} END {print s}')
+    echo "File count: $file_count"
+    echo -e "UUID files:\n `find uuids/ -type f -exec wc -l {} \;`"
 
-setup lsst_distrib -t w_2026_23
-eups list -s rucio_register
-echo "Starting rucio-register dataset-list for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
-echo "Time: $(date +%s.%N)"
-# Edit this find command to restrict registration to particular uuid files
-find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register dataset-list \
-    --repo "$BUTLER_REPO" \
-    --rucio-dataset $DATASET/{} \
-    --rucio-register-config "$CONFIG_FILE" \
-    --log-level INFO \
-    --max-workers 1 \
-    --chunk-size 1000 \
-    --uuidlist {}; echo "Time: $(date +%s.%N)"'
+    # setup lsst_distrib -t w_2026_23
+    # eups list -s rucio_register
+    echo "Starting rucio-register dataset-list for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
+    echo "Time: $(date +%s.%N)"
 
-# head -n 10 "$first_uuid_file"
-
-# find ./uuids -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register data-products \
-# --repo "$BUTLER_REPO" \
-# --dataset-type "$TYPE" \
-# --collections "$COLLECTION" \
-# --rucio-dataset {}'
+    # Edit this find command to restrict registration to particular uuid files
+    find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register dataset-list \
+        --repo "$BUTLER_REPO" \
+        --rucio-dataset $DATASET/{} \
+        --rucio-register-config "$CONFIG_FILE" \
+        --log-level INFO \
+        --max-workers 1 \
+        --chunk-size 1000 \
+        --uuidlist {}; echo "Time: $(date +%s.%N)"'
+else
+    echo "No uuids directory found - auto-register may have failed"
+    exit 1
+fi
 
 exit 0
