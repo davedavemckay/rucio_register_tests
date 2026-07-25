@@ -6,7 +6,7 @@ export SITE="TEMPLATE_SITE"
 export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
 export TEST_NAME="DM-55271-test_3a"
 export TIMESTAMP=$((`date +%s` % 10000))
-export TRANSFER_FILE="https://raw.githubusercontent.com/davedavemckay/cm_transfer_list/refs/heads/main/cm_transfer_list.yaml"
+export TRANSFER_LIST_YAML="https://raw.githubusercontent.com/davedavemckay/cm_transfer_list/refs/heads/main/cm_transfer_list.yaml"
 
 rucio whoami
 
@@ -28,7 +28,7 @@ rucio-register auto-register \
 --root-chain "$COLLECTION" \
 --repo "$BUTLER_REPO" \
 --rucio-register-config "$CONFIG_FILE" \
---transfer-file "$TRANSFER_FILE" \
+--transfer-list "$TRANSFER_LIST_YAML" \
 --log-level DEBUG \
 --max-dataset-types 10 \
 --chunk-size 1000 \
