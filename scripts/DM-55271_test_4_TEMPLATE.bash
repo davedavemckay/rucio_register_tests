@@ -30,7 +30,7 @@ rucio-register auto-register \
 --rucio-register-config "$CONFIG_FILE" \
 --transfer-list "$TRANSFER_LIST_YAML" \
 --log-level DEBUG \
---max-dataset-types 10 \
+--max-dataset-types 1000 \
 --chunk-size 1000 \
 --split-size 2000 \
 --max-workers 10 \
