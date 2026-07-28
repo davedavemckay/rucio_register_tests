@@ -4,7 +4,7 @@ export SCOPE="dp2_prep"
 export COLLECTION="TEMPLATE_COLLECTION"
 export SITE="TEMPLATE_SITE"
 export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
-export TEST_NAME="DM-55271-test_3a"
+export TEST_NAME="DM-55271-test_4"
 export TIMESTAMP=$((`date +%s` % 10000))
 export TRANSFER_LIST_YAML="https://raw.githubusercontent.com/davedavemckay/cm_transfer_list/refs/heads/main/cm_transfer_list.yaml"
 
