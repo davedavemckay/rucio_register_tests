@@ -105,13 +105,13 @@ fi
 
 if [ "$SITE" = "LANCS" ]; then
     RSE_ROOT="/cephfs/grid/lsst/repos/${BUTLER_REPO}/"
-    DTN_URL="davs://xgate.hec.lancs.ac.uk:1094${RSE_ROOT}"
+    DTN_URL="https://xgate.hec.lancs.ac.uk:1094${RSE_ROOT}"
     if [ "$TEST_NAME" = "test_checksum_mechanisms" ] || [ "$TEST" = "test_checksum_mechanisms" ]; then
         TEST_FILE="u/dmckayuk/w_2026_23/DM-55252/20260619T131002Z/analyzeSingleVisitStarAssociation_log/6119/analyzeSingleVisitStarAssociation_log_LSSTCam_6119_lsst_cells_v2_u_dmckayuk_w_2026_23_DM-55252_20260619T131002Z.json"
     fi
 elif [ "$SITE" = "RAL" ]; then
     RSE_ROOT="/lsst:datadisk/butler/repos/${BUTLER_REPO}/"
-    DTN_URL="davs://webdav.echo.stfc.ac.uk:1094${RSE_ROOT}"
+    DTN_URL="https://webdav.echo.stfc.ac.uk:1094${RSE_ROOT}"
     if [ "$TEST_NAME" = "test_checksum_mechanisms" ] || [ "$TEST" = "test_checksum_mechanisms" ]; then
         TEST_FILE="u/dmckayuk/w_2026_23/DM-55251/20260618T080828Z/analyzeSingleVisitStarAssociation_log/6105/analyzeSingleVisitStarAssociation_log_LSSTCam_6105_lsst_cells_v2_u_dmckayuk_w_2026_23_DM-55251_20260618T080828Z.json"
     fi
