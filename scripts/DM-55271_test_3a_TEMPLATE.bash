@@ -27,6 +27,7 @@ rucio-register auto-register \
 --root-chain "$COLLECTION" \
 --repo "$BUTLER_REPO" \
 --rucio-register-config "$CONFIG_FILE" \
+--dataset-name-prefix "$DATASET_PREFIX" \
 --log-level DEBUG \
 --max-dataset-types 10 \
 --chunk-size 1000 \

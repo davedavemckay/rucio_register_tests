@@ -17,7 +17,7 @@ rse_root: TEMPLATE_RSE_ROOT
 dtn_url: TEMPLATE_DTN_URL
 EOF
 
-export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}/${TIMESTAMP}"
+export DATASET_PREFIX="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}/${TIMESTAMP}"
 export CONFIG_FILE="rucio_register.cfg"
 echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
 
@@ -29,6 +29,7 @@ rucio-register auto-register \
 --repo "$BUTLER_REPO" \
 --rucio-register-config "$CONFIG_FILE" \
 --transfer-list "$TRANSFER_LIST_YAML" \
+--dataset-name-prefix "$DATASET_PREFIX" \
 --log-level DEBUG \
 --max-dataset-types 1000 \
 --chunk-size 1000 \
