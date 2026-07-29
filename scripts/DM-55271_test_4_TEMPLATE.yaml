@@ -56,14 +56,10 @@ payload:
 
 customJob:
   queue: ""
-  requestCpus: 12
-  requestMemory: 16000
+  requestCpus: 8
+  requestMemory: 8000
   executable: "TEMPLATE_BASH_FILE"
   arguments: "0"
-
-finalJob:
-  requestCpus: 12
-  requestMemory: 16000
 
 preparePayloadWorkflow:
   computeSite: bps_submit
