@@ -35,7 +35,7 @@ rucio-register auto-register \
 --chunk-size 1000 \
 --split-size 2000 \
 --max-workers 10 \
---max-retries 1
+--max-retries 5
 
 result1=$?
 echo "Time: $(date +%s.%N) - Finished rucio-register auto-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
