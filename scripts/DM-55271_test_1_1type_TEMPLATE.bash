@@ -31,7 +31,8 @@ TYPE=makeAnalysisSingleVisitStarAssociationWholeSkyPlot_config
     --rucio-dataset "$DATASET" \
     --rucio-register-config "$CONFIG_FILE" \
     --log-level DEBUG \
-    --chunk-size 30
+    --chunk-size 500 \
+    --max-retries 8
 # done
 result1=$?
 echo "Time: $(date +%s.%N) - Finished rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "

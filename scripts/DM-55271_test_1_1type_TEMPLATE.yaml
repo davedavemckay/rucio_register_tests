@@ -50,6 +50,7 @@ customJob:
   requestMemory: 16000
   executable: "TEMPLATE_BASH_FILE"
   arguments: "0"
+  transfer_output_files: ["uuids/auto-register-failures.json"]
 
 finalJob:
   requestCpus: 10

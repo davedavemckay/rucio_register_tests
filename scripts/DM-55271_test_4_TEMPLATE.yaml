@@ -50,6 +50,7 @@ customJob:
   requestMemory: 8000
   executable: "TEMPLATE_BASH_FILE"
   arguments: "0"
+  transfer_output_files: ["uuids/auto-register-failures.json"]
 
 preparePayloadWorkflow:
   computeSite: bps_submit

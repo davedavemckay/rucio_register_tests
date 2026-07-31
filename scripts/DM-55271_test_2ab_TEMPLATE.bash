@@ -16,6 +16,7 @@ rse_root: TEMPLATE_RSE_ROOT
 dtn_url: TEMPLATE_DTN_URL
 EOF
 
+export DATASET_PREFIX="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}/${TIMESTAMP}"
 export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}/${TIMESTAMP}"
 export CONFIG_FILE="rucio_register.cfg"
 echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
@@ -29,6 +30,7 @@ rucio-register auto-register \
 --repo "$BUTLER_REPO" \
 --dry-run \
 --rucio-register-config "$CONFIG_FILE" \
+--dataset-name-prefix "$DATASET_PREFIX" \
 --log-level INFO \
 --max-dataset-types 20 \
 --out-dir "uuids"
@@ -55,13 +57,14 @@ then
     echo "Time: $(date +%s.%N)"
 
     # Edit this find command to restrict registration to particular uuid files
-    find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 10 bash -c 'rucio-register dataset-list \
+    find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 5 bash -c 'rucio-register dataset-list \
         --repo "$BUTLER_REPO" \
         --rucio-dataset $DATASET/{} \
         --rucio-register-config "$CONFIG_FILE" \
         --log-level INFO \
         --max-workers 1 \
-        --chunk-size 1000 \
+        --chunk-size 500 \
+        --max-retries 8 \
         --uuidlist {}; echo "Time: $(date +%s.%N)"'
 else
     echo "No uuids directory found - auto-register may have failed"

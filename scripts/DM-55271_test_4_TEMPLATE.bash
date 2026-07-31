@@ -32,10 +32,10 @@ rucio-register auto-register \
 --dataset-name-prefix "$DATASET_PREFIX" \
 --log-level DEBUG \
 --max-dataset-types 1000 \
---chunk-size 1000 \
+--chunk-size 500 \
 --split-size 2000 \
 --max-workers 5 \
---max-retries 5
+--max-retries 8
 
 result1=$?
 echo "Time: $(date +%s.%N) - Finished rucio-register auto-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
