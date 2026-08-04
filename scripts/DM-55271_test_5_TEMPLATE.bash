@@ -6,7 +6,7 @@ export SITE="TEMPLATE_SITE"
 export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
 export TEST_NAME="DM-55271-test_5"
 export TIMESTAMP=$((`date +%s` % 10000))
-export TRANSFER_LIST_YAML="https://raw.githubusercontent.com/davedavemckay/cm_transfer_list/refs/heads/main/cm_transfer_list.yaml"
+export TRANSFER_LIST_YAML="https://raw.githubusercontent.com/lsst-dm/datasettype_transfer_lists/refs/heads/main/cm_transfer_list.yaml"
 
 rucio whoami
 
