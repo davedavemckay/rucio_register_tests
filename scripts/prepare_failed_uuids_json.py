@@ -8,8 +8,7 @@ end_failure_list = "=== RUCIO_REGISTER_FAILED_UUIDS_END ==="
 def prepare_failed_uuids_json(
     input_filename=""
 ):
-    print("prepare_failed_uuids_json called with input_filename: ", input_filename)
-    assert input_filename is not "", "Error input_filename is empty"
+    assert input_filename != "", "Error input_filename is empty"
     output_filename = os.path.dirname(input_filename)+"/"+"_".join(input_filename.split("/")[-1].split(".")[0:-1]) + "_failed_uuids.json"
     with open(input_filename, "r") as input_file, open(output_filename, "w") as output_file:
         content = input_file.read()
@@ -23,7 +22,6 @@ def prepare_failed_uuids_json(
 
 if __name__ == "__main__":
     input_filename = sys.argv[1]
-    print("Input filename: ", input_filename)
     try:
         prepare_failed_uuids_json(input_filename)
     except AssertionError as e:
