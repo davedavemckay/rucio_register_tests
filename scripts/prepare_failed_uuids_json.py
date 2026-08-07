@@ -21,13 +21,10 @@ def prepare_failed_uuids_json(
         output_file.write(uuids_json)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Prepare failed uuids json")
-    parser.add_argument("--input-filename", "-i", dest="input_filename", type=str, required=True, help="Input filename")
-    args = parser.parse_args()
-    input_filename = args.input_filename
-    print(input_filename)
+    input_filename = sys.argv[1]
+    print("Input filename: ", input_filename)
     try:
-        prepare_failed_uuids_json(args.input_filename)
+        prepare_failed_uuids_json(input_filename)
     except AssertionError as e:
         print(e)
         sys.exit(10, f"Assertion Error: {e}")
