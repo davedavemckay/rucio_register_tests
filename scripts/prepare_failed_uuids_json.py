@@ -22,7 +22,7 @@ def prepare_failed_uuids_json(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Prepare failed uuids json")
-    parser.add_argument("--input-filename", type=str, required=True, help="Input filename")
+    parser.add_argument("--input-filename", "-i", dest="input_filename", type=str, required=True, help="Input filename")
     args = parser.parse_args()
     try:
         prepare_failed_uuids_json(args.input_filename)
