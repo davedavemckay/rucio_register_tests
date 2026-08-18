@@ -1,0 +1,54 @@
+# Run with `bps submitcmd DM-55271_test_-n-.yaml`
+wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
+computeSite: TEMPLATE_COMPUTE_SITE
+
+site:
+  TEMPLATE_COMPUTE_SITE:
+    nodeset: "TEMPLATE_NODESET"
+    fileDistributionEndpoint: "${LSST_RUN_TEMP_SPACE}/bps_dev/payload/{uniqProcName}/"
+    bpsBatchSubmission: true
+    bpsUseRunTempSpace: true
+    softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
+    bpsUseShared: false
+    bpsMakeCommand: false
+    
+    customEnvSetup: >
+      pwd;
+      
+      git clone https://github.com/lsst/rucio_register;
+      pushd rucio_register;
+      git checkout tickets/DM-55271;
+      setup -j -r .;
+      scons;
+      popd;
+      git clone https://github.com/lsst/resources;
+      pushd resources;
+      setup -j -r .;
+      scons;
+      popd;
+      
+      taskset -pc $$;
+
+lsstVersion: "w_2026_23"
+project: dev
+campaign: rucio_parallel_tests
+bpsMakeCommand: false
+fileDistributionEndpoint: "${LSST_RUN_TEMP_SPACE}/bps_dev/payload/{uniqProcName}/"
+submitCmd: True
+numberOfRetries: 0
+
+payload:
+  payloadName: "TEMPLATE_TEST_NAME/{computeSite}"
+  inCollection: "TEMPLATE_COLLECTION"
+  butlerConfig: "dp2_prep"
+
+customJob:
+  queue: ""
+  requestCpus: 8
+  requestMemory: 8000
+  executable: "TEMPLATE_BASH_FILE"
+  arguments: "0"
+  transfer_output_files: ["uuids/auto-register-failures.json"]
+
+preparePayloadWorkflow:
+  computeSite: bps_submit
