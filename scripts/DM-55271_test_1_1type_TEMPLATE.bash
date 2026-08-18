@@ -44,6 +44,7 @@ else
 fi
 
 rucio replica list dataset  $SCOPE:$DATASET
+result2=$?
 
 echo $result2
 if [ "$result2" != "0" ]; then

@@ -59,7 +59,7 @@ then
     # Edit this find command to restrict registration to particular uuid files
     find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 5 bash -c 'rucio-register dataset-list \
         --repo "$BUTLER_REPO" \
-        --rucio-dataset $DATASET/{} \
+        --rucio-dataset "$DATASET" \
         --rucio-register-config "$CONFIG_FILE" \
         --log-level INFO \
         --max-workers 1 \
