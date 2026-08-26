@@ -31,7 +31,7 @@ site:
 
 lsstVersion: "w_2026_23"
 project: dev
-campaign: rucio_parallel_tests
+campaign: rucio_parallel_tests_post_PR
 bpsMakeCommand: false
 fileDistributionEndpoint: "${LSST_RUN_TEMP_SPACE}/bps_dev/payload/{uniqProcName}/"
 submitCmd: True
