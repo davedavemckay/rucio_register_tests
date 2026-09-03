@@ -9,7 +9,16 @@ using_autoregistration = False
 using_autoregistration_finished = False
 using_autoregistration_started = False
 
-if len(sys.argv) > 1 and os.system('grep "Batch registration summary" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
+def parse_time(ts_str):
+    cleaned = ts_str.replace('Z', '+00:00')
+    if ',' in cleaned:
+        parts = cleaned.split(',')
+        sub = parts[1].split('+')[0].split('-')[0].replace('.', '')
+        tz = '+' + parts[1].split('+')[1] if '+' in parts[1] else ''
+        cleaned = f"{parts[0]}.{sub[:6]}{tz}"
+    return datetime.fromisoformat(cleaned)
+
+if len(sys.argv) > 1 and os.system('grep -E "(Batch registration summary|Registration summary for)" ' + sys.argv[1] + '> /dev/null 2>&1') == 0:
     using_autoregistration = True
 
 def batch_stats(filename=''):
@@ -19,9 +28,9 @@ def batch_stats(filename=''):
     with open(filename, 'r') as f:
         lines = f.readlines()
         for line in lines:
-            if "Batch registration summary" in line:
+            if "Batch registration summary" in line or "Registration summary for" in line:
                 reg_summary_lines.append(line)
-            elif ("Registering " in line or "Submitting " in line) and not ("Completed" in line or "summary" in line or "Done with" in line):
+            elif ("Registering " in line or "Submitting " in line or "Starting registration " in line) and not ("Completed" in line or "summary" in line or "Done with" in line):
                 # Extract dataset
                 parts = line.split()
                 dataset = None
@@ -61,8 +70,8 @@ def batch_stats(filename=''):
             continue
             
         batch_datasets.append(dataset)
-        start_time = datetime.fromisoformat(' '.join(pb_line.split()[1:3]))
-        end_time = datetime.fromisoformat(' '.join(rs_line.split()[1:3]))
+        start_time = parse_time(' '.join(pb_line.split()[1:3]))
+        end_time = parse_time(' '.join(rs_line.split()[1:3]))
         
         batch_start_times.append(start_time)
         batch_end_times.append(end_time)
