@@ -2,6 +2,8 @@
 wmsServiceClass: "lsst.ctrl.bps.htcondor.HTCondorService"
 computeSite: TEMPLATE_COMPUTE_SITE
 
+priority: 2000
+
 site:
   TEMPLATE_COMPUTE_SITE:
     nodeset: "TEMPLATE_NODESET"
