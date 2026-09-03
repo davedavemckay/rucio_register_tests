@@ -32,7 +32,8 @@ butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n 
     --rucio-register-config "$CONFIG_FILE" \
     --log-level DEBUG \
     --chunk-size 500 \
-    --max-retries 8
+    --max-retries 8 \
+    --max-workers 1
 
     result1=$?
     echo "Time: $(date +%s.%N) - Finished rucio-register for dataset_type $TYPE for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
