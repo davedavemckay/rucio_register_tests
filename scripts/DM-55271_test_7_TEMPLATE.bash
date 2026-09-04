@@ -21,13 +21,14 @@ export DATASET_PREFIX="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_
 export CONFIG_FILE="rucio_register.cfg"
 echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
 
+## WARNING the max-dataset-types is set to None by default in the code, and will register all dataset types.
+
 rucio-register auto-register \
 --root-chain "$COLLECTION" \
 --repo "$BUTLER_REPO" \
 --rucio-register-config "$CONFIG_FILE" \
 --transfer-list "$TRANSFER_LIST_YAML" \
 --dataset-name-prefix "$DATASET_PREFIX" \
---max-dataset-types 1000 \
 --dry-run
 
 result1=$?
