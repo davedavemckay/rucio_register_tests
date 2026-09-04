@@ -28,8 +28,7 @@ rucio-register auto-register \
 --repo "$BUTLER_REPO" \
 --rucio-register-config "$CONFIG_FILE" \
 --transfer-list "$TRANSFER_LIST_YAML" \
---dataset-name-prefix "$DATASET_PREFIX" \
---dry-run
+--dataset-name-prefix "$DATASET_PREFIX"
 
 result1=$?
 echo "Time: $(date +%s.%N) - Finished rucio-register auto-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
