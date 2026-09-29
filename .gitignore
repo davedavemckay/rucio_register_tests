@@ -221,3 +221,5 @@ temp/*
 
 # logs
 *.out
+
+scripts/transfer_all.bash

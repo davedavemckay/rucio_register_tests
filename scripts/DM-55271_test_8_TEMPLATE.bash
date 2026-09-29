@@ -42,7 +42,7 @@ fi
 
 # Discover all auto-generated datasets using rucio list-dids / rucio did list
 echo "Time: $(date +%s.%N) - Discovering datasets matching prefix ${SCOPE}:${DATASET_PREFIX}*"
-DATASET_LIST=$(rucio list-dids "${SCOPE}:${DATASET_PREFIX}*" --type dataset --short 2>/dev/null || rucio did list "${SCOPE}:${DATASET_PREFIX}*" --type dataset --short)
+DATASET_LIST=$(rucio list-dids "${SCOPE}:${DATASET_PREFIX}*" --type dataset --short 2>/dev/null || rucio did list "${SCOPE}:${DATASET_PREFIX}*" --short 2>/dev/null)
 
 result2=0
 if [ -z "$DATASET_LIST" ]; then
