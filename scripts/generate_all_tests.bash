@@ -81,7 +81,7 @@ fi
 cd "$SCRIPT_DIR"
 
 TEST_NAMES=()
-for file in DM-55271*_TEMPLATE.bash DM-55271*_TEMPLATE.yaml; do
+for file in *_TEMPLATE.bash *_TEMPLATE.yaml; do
     [ -e "$file" ] || continue
     test_name="${file%_TEMPLATE.bash}"
     test_name="${test_name%_TEMPLATE.yaml}"
@@ -89,7 +89,7 @@ for file in DM-55271*_TEMPLATE.bash DM-55271*_TEMPLATE.yaml; do
 done
 
 if [ ${#TEST_NAMES[@]} -eq 0 ]; then
-    echo "No template files starting with DM-55271 found in $SCRIPT_DIR" >&2
+    echo "No template files found in $SCRIPT_DIR" >&2
     exit 1
 fi
 
