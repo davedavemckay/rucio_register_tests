@@ -27,7 +27,6 @@ rucio-register auto-register \
 --rucio-register-config "$CONFIG_FILE" \
 --transfer-list "$TRANSFER_LIST_YAML" \
 --dataset-name-prefix "$DATASET_PREFIX" \
---clear-is-new \
 --log-level DEBUG \
 --chunk-size 500 \
 --split-size 2000 \
