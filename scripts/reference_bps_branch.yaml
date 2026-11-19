@@ -15,13 +15,13 @@ buildQuantumGraph:
     pushd ctrl_bps;
     git checkout tickets/DM-53494;
     setup -j -r .;
-    scons;
+    scons python;
     popd;
     git clone https://github.com/lsst/ctrl_bps_htcondor;
     pushd ctrl_bps_htcondor;
     git checkout tickets/DM-53494;
     setup -j -r .;
-    scons;
+    scons python;
     popd;
     taskset -pc $$;
 

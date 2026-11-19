@@ -16,12 +16,12 @@ site:
       pushd rucio_register;
       git checkout tickets/DM-55271;
       setup -j -r .;
-      scons;
+      scons python;
       popd;
       git clone https://github.com/lsst/resources;
       pushd resources;
       setup -j -r .;
-      scons;
+      scons python;
       popd;
       git clone https://github.com/davedavemckay/rucio_register_tests;
       

@@ -21,7 +21,7 @@ site:
       pushd rucio_register;
       git checkout tickets/DM-55271;
       setup -j -r .;
-      scons;
+      scons python;
       popd;
       
       taskset -pc $$;
