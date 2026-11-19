@@ -1,0 +1,74 @@
+#!/bin/bash
+export BUTLER_REPO="dp2_prep"
+export SCOPE="dp2_prep"
+export COLLECTION="TEMPLATE_COLLECTION"
+export SITE="TEMPLATE_SITE"
+export PIPELINE_RUN_TICKET="TEMPLATE_TICKET"
+export TEST_NAME="DM-57040-test_2ab"
+export TIMESTAMP=$((`date +%s` % 10000))
+
+rucio whoami
+
+cat <<EOF >rucio_register.cfg
+rucio_rse: "${SITE}_BUTLER_DISK"
+scope: "${SCOPE}"
+rse_root: TEMPLATE_RSE_ROOT
+dtn_url: TEMPLATE_DTN_URL
+EOF
+
+export DATASET_PREFIX="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}/${TIMESTAMP}"
+export DATASET="Dataset/LSSTCam/runs/${BUTLER_REPO}/w_2026_23/${PIPELINE_RUN_TICKET}/${SITE}/${TEST_NAME}/${TIMESTAMP}"
+export CONFIG_FILE="rucio_register.cfg"
+echo "Time: $(date +%s.%N) - Starting rucio-register for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
+
+# use first 20 dataset types from the butler query-dataset-types command for the given collection
+# butler query-dataset-types "$BUTLER_REPO" --collections "$COLLECTION" | tail -n +3 | head -n 20 | while IFS= read -r TYPE; do
+#     echo "type $TYPE"
+
+rucio-register auto-register \
+--root-chain "$COLLECTION" \
+--repo "$BUTLER_REPO" \
+--dry-run \
+--rucio-register-config "$CONFIG_FILE" \
+--dataset-name-prefix "$DATASET_PREFIX" \
+--log-level INFO \
+--max-dataset-types 20 \
+--out-dir "uuids"
+
+result1=$?
+echo "Time: $(date +%s.%N) - Finished rucio-register auto-register --dryrun for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE "
+
+echo $result1
+if [ "$result1" != "0" ]; then
+    echo "rucio-register $TEST_NAME Failed"
+else
+    echo "rucio-register $TEST_NAME Succeeded"
+fi
+if [ -d uuids ];
+then
+
+    file_count=$(for f in `find uuids/ -type f`; do wc -l $f | awk '{print $1}'; done | awk '{s+=$1} END {print s}')
+    echo "File count: $file_count"
+    echo -e "UUID files:\n `find uuids/ -type f -exec wc -l {} \;`"
+
+    # setup lsst_distrib -t w_2026_23
+    # eups list -s rucio_register
+    echo "Starting rucio-register dataset-list for $TEST_NAME $PIPELINE_RUN_TICKET at $SITE"
+    echo "Time: $(date +%s.%N)"
+
+    # Edit this find command to restrict registration to particular uuid files
+    find uuids/ -type f -print0 | xargs -0 -I {} -n 1 -P 5 bash -c 'rucio-register dataset-list \
+        --repo "$BUTLER_REPO" \
+        --rucio-dataset "$DATASET" \
+        --rucio-register-config "$CONFIG_FILE" \
+        --log-level INFO \
+        --max-workers 1 \
+        --chunk-size 500 \
+        --max-retries 8 \
+        --uuidlist {}; echo "Time: $(date +%s.%N)"'
+else
+    echo "No uuids directory found - auto-register may have failed"
+    exit 1
+fi
+
+exit 0

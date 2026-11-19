@@ -7,12 +7,13 @@ SITE=""
 COLLECTION=""
 PIPELINE_RUN_TICKET=""
 TEST=""
+TICKET_BRANCH=""
 BUTLER_REPO="dp2_prep"
 
 usage() {
-    echo "Usage: $0 --site <SITE> --collection <COLLECTION> --pipeline-run-ticket <PIPELINE_RUN_TICKET> --test-name <TEST_NAME>"
-    echo "   or: $0 -s <SITE> -c <COLLECTION> -t <PIPELINE_RUN_TICKET> -n <TEST_NAME>"
-    echo "   or: $0 <SITE> <COLLECTION> <PIPELINE_RUN_TICKET> <TEST_NAME>"
+    echo "Usage: $0 --site <SITE> --collection <COLLECTION> --pipeline-run-ticket <PIPELINE_RUN_TICKET> --test-name <TEST_NAME> [--ticket-branch <TICKET_BRANCH>]"
+    echo "   or: $0 -s <SITE> -c <COLLECTION> -t <PIPELINE_RUN_TICKET> -n <TEST_NAME> [-b <TICKET_BRANCH>]"
+    echo "   or: $0 <SITE> <COLLECTION> <PIPELINE_RUN_TICKET> <TEST_NAME> [<TICKET_BRANCH>]"
     echo ""
     echo "Options:"
     echo "  -s, --site                  Compute site (e.g., LANCS, RAL)"
@@ -21,6 +22,8 @@ usage() {
     echo "                              Pipeline run ticket identifier"
     echo "  -n, --name, --test, --test-name"
     echo "                              Test name or template filename"
+    echo "  -b, --branch, --ticket-branch"
+    echo "                              Ticket branch / subfolder name (default: DM-57040, e.g., DM-55271)"
     echo "  -h, --help                  Show this help message"
     exit 1
 }
@@ -60,6 +63,14 @@ while [[ $# -gt 0 ]]; do
             TEST="${1#*=}"
             shift
             ;;
+        -b|--branch|--ticket-branch)
+            TICKET_BRANCH="$2"
+            shift 2
+            ;;
+        --branch=*|--ticket-branch=*)
+            TICKET_BRANCH="${1#*=}"
+            shift
+            ;;
         -h|--help)
             usage
             ;;
@@ -87,20 +98,56 @@ fi
 if [ -z "$TEST" ] && [ ${#POSITIONAL_ARGS[@]} -gt 3 ]; then
     TEST="${POSITIONAL_ARGS[3]}"
 fi
+if [ -z "$TICKET_BRANCH" ] && [ ${#POSITIONAL_ARGS[@]} -gt 4 ]; then
+    TICKET_BRANCH="${POSITIONAL_ARGS[4]}"
+fi
 
 if [ -z "$SITE" ] || [ -z "$COLLECTION" ] || [ -z "$PIPELINE_RUN_TICKET" ] || [ -z "$TEST" ]; then
     echo "Error: SITE, COLLECTION, PIPELINE_RUN_TICKET, and TEST_NAME are required." >&2
     usage
 fi
 
-cd "$SCRIPT_DIR"
+# Strip tickets/ prefix if provided (e.g., tickets/DM-57040 -> DM-57040)
+TICKET_BRANCH="${TICKET_BRANCH#tickets/}"
+TICKET_BRANCH="${TICKET_BRANCH%/}"
 
-if [[ "$TEST" == *.yaml ]]; then
-    TEST_NAME="${TEST%.yaml}"
-elif [[ "$TEST" == *.bash ]]; then
-    TEST_NAME="${TEST%.bash}"
-else
-    TEST_NAME="$TEST"
+# If TEST includes a directory prefix (e.g., DM-57040/DM-57040_test_1), extract it
+if [[ "$TEST" == */* ]]; then
+    if [ -z "$TICKET_BRANCH" ]; then
+        TICKET_BRANCH="${TEST%%/*}"
+    fi
+    TEST="${TEST##*/}"
+fi
+
+# Strip file extensions and _TEMPLATE suffix if present
+TEST_NAME="${TEST%.yaml}"
+TEST_NAME="${TEST_NAME%.bash}"
+TEST_NAME="${TEST_NAME%_TEMPLATE}"
+
+# Auto-detect TICKET_BRANCH from TEST_NAME prefix (e.g. DM-57040_test_1 -> DM-57040) or default to DM-57040
+if [ -z "$TICKET_BRANCH" ]; then
+    if [[ "$TEST_NAME" =~ ^(DM-[0-9]+)_ ]]; then
+        TICKET_BRANCH="${BASH_REMATCH[1]}"
+    else
+        TICKET_BRANCH="DM-57040"
+    fi
+fi
+
+TARGET_DIR="$SCRIPT_DIR/$TICKET_BRANCH"
+if [ ! -d "$TARGET_DIR" ]; then
+    echo "Error: Ticket branch subfolder '$TARGET_DIR' does not exist." >&2
+    exit 1
+fi
+
+cd "$TARGET_DIR"
+
+if [ ! -f "${TEST_NAME}_TEMPLATE.bash" ] && [ -f "${TICKET_BRANCH}_${TEST_NAME}_TEMPLATE.bash" ]; then
+    TEST_NAME="${TICKET_BRANCH}_${TEST_NAME}"
+fi
+
+if [ ! -f "${TEST_NAME}_TEMPLATE.bash" ] || [ ! -f "${TEST_NAME}_TEMPLATE.yaml" ]; then
+    echo "Error: Template files ${TEST_NAME}_TEMPLATE.{bash,yaml} not found in $TARGET_DIR" >&2
+    exit 1
 fi
 
 if [ "$SITE" = "LANCS" ]; then
@@ -147,7 +194,8 @@ sed -e "s|TEMPLATE_COMPUTE_SITE|$SITE|g" ${TEST_NAME}_TEMPLATE.yaml \
 
 chmod a+x ${TEST_NAME}_${SITE}.bash
 
-echo "Generated ${TEST_NAME}_${SITE}.bash and ${TEST_NAME}_${SITE}.yaml with the following parameters:"
+echo "Generated ${TICKET_BRANCH}/${TEST_NAME}_${SITE}.bash and ${TICKET_BRANCH}/${TEST_NAME}_${SITE}.yaml with the following parameters:"
+echo "TICKET_BRANCH: $TICKET_BRANCH"
 echo "SITE: $SITE"
 echo "COLLECTION: $COLLECTION"
 echo "PIPELINE_RUN_TICKET: $PIPELINE_RUN_TICKET"
