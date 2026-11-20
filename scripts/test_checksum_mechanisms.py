@@ -7,7 +7,7 @@ import traceback
 def test_local_path(uri):
     print("=== Testing Local Path Translation ===")
     print(f"Original URI: {uri}")
-    
+
     # Extract path component
     if "://" in uri:
         scheme, rest = uri.split("://", 1)
@@ -18,11 +18,11 @@ def test_local_path(uri):
             local_path = "/"
     else:
         local_path = uri
-        
+
     print(f"Inferred local path: {local_path}")
     exists = os.path.exists(local_path)
     print(f"Does local path exist? {exists}")
-    
+
     if not exists:
         print("Checking parent directories to see where mount breaks:")
         parts = local_path.split("/")
@@ -52,10 +52,10 @@ def test_cephfs_xattr(local_path):
     if not local_path:
         print("Skipping CephFS xattr check (local path does not exist).")
         return
-        
+
     attr_name = "user.XrdCks.adler32"
     print(f"Querying extended attribute '{attr_name}' on: {local_path}")
-    
+
     try:
         # Check if listxattr has it
         try:
@@ -63,11 +63,11 @@ def test_cephfs_xattr(local_path):
             print(f"Available extended attributes: {attrs}")
         except Exception as e:
             print(f"listxattr failed: {e}")
-            
+
         attr_val = os.getxattr(local_path, attr_name)
         print(f"Raw attribute value (hex): {attr_val.hex()}")
         print(f"Raw attribute value length: {len(attr_val)} bytes")
-        
+
         if len(attr_val) >= 36:
             # Extract bytes 32-35
             chksum_bytes = attr_val[32:36]
@@ -85,13 +85,13 @@ def test_webdav_digest(uri):
     try:
         from lsst.resources import ResourcePath
         from lsst.resources.davutils import DavClientPool
-        
+
         print("Imported lsst.resources and DavClientPool successfully.")
-        
+
         rp = ResourcePath(uri)
         # Convert davs:// / dav:// URI to https:// / http:// URL for urllib3 compatibility
         http_url = getattr(rp, "_internal_url", str(rp).replace("davs://", "https://").replace("dav://", "http://"))
-        
+
         # Initialize client pool if not already initialized
         pool = DavClientPool._instance
         if pool is None:
@@ -101,23 +101,23 @@ def test_webdav_digest(uri):
             except Exception:
                 pass
             pool = DavClientPool._instance
-            
+
         if pool is None:
             print("ERROR: Could not initialize DavClientPool.")
             return
-            
+
         print("Client Pool clients:", list(pool._clients.keys()))
         client = pool.get_client_for_url(http_url)
         print(f"Client class selected: {client.__class__.__name__}")
         print(f"Client base URL: {client._base_url}")
-            
+
         print(f"Sending HEAD request with Want-Digest: adler32 to: {http_url}")
         resp = client.head(http_url, headers={"Want-Digest": "adler32"})
         print(f"HTTP Response Status: {resp.status} {resp.reason}")
         print("HTTP Response Headers:")
         for header, val in resp.headers.items():
             print(f"  {header}: {val}")
-            
+
         digest = resp.headers.get("Digest")
         if digest:
             print(f"Found Digest Header: {digest}")
@@ -128,7 +128,7 @@ def test_webdav_digest(uri):
                 print("Digest format does not match expected 'adler32=value'")
         else:
             print("No 'Digest' header returned by WebDAV server.")
-            
+
     except Exception as e:
         print(f"WebDAV Digest check failed: {e}")
         print("Traceback:")
@@ -153,17 +153,17 @@ def test_manual_download(uri):
     try:
         from lsst.resources import ResourcePath
         rp = ResourcePath(uri)
-        
+
         start = time.time()
         adler32 = zlib.adler32(b"")
         buffer_size = 10 * 1024 * 1024
         total_bytes = 0
-        
+
         with rp.open("rb") as f:
             while buffer := f.read(buffer_size):
                 adler32 = zlib.adler32(buffer, adler32)
                 total_bytes += len(buffer)
-                
+
         elapsed = time.time() - start
         checksum = f"{adler32 & 0xffffffff:08x}"
         print(f"Calculated Adler32: {checksum}")
@@ -179,9 +179,9 @@ if __name__ == "__main__":
     except IndexError:
         print("Error: No URI provided. Please provide a URI as the first argument.")
         sys.exit(1)
-    
+
     print(f"Running Checksum Diagnostics on URI:\n{uri}\n")
-    
+
     local_path = test_local_path(uri)
     test_cephfs_xattr(local_path)
     test_webdav_digest(uri)
