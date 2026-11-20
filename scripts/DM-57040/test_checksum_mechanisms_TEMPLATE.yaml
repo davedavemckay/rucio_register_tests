@@ -8,23 +8,23 @@ site:
     bpsUseShared: false
     bpsUseRunTempSpace: true
     softwarePath: "/cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{lsstVersion}"
-    
+
     customEnvSetup: >
       pwd;
-      
+
       git clone https://github.com/lsst/rucio_register;
       pushd rucio_register;
       git checkout tickets/DM-57040;
       setup -j -r .;
-      scons python;
+      scons -j 8;
       popd;
       git clone https://github.com/lsst/resources;
       pushd resources;
       setup -j -r .;
-      scons python;
+      scons -j 8;
       popd;
       git clone https://github.com/davedavemckay/rucio_register_tests;
-      
+
       taskset -pc $$;
 
   bps_submit:
